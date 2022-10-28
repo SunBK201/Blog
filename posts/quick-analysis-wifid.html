@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>SunBK201</title>
+  <meta name="author" content="SunBK201">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png">
+  <link rel="stylesheet" href="/style.css">
+  <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="SunBK201">
+  <style>
+    @import url('/fonts.css');
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1><a rel="author" href="/">SunBK201</a></h1>
+    <nav>
+      <a href="/about.html">About</a>
+      <a href="/feed.xml" data-no-instant>RSS</a>
+    </nav>
+  </header>
+
+  <main>
+    <header>
+      <time datetime="2021-06-21">2021-06-21</time>
+      <h1>关于 iOS SSID 格式字符串 BUG 的快速分析</h1>
+    </header>
+
+    <p>数天前，Twitter上的
+      <a href="https://twitter.com/vm_call/status/1405937492642123782" target="_blank">一条推文</a>爆出了一个iOS Wi-Fi的BUG：
+    </p>
+    <blockquote>
+      <p>@vm_call: After joining my personal WiFi with the SSID “%p%s%s%s%s%n”, my iPhone permanently disabled it’s WiFi
+        functionality. Neither rebooting nor changing SSID fixes it :~)</p>
+    </blockquote>
+
+    <p>
+      <img src="https://sunbk201.oss-cn-beijing.aliyuncs.com/img/20210621105740.png" alt="">
+    </p>
+
+    <p>
+      看起来这是一个格式化字符串的错误，现在这种BUG已经很少见了。我用相同的SSID设置了一个热点，用我的测试设备尝试加入，wifid很快就崩掉了。
+    </p>
+    <p>
+      以下是崩溃日志 <code>wifid-2021-06-20-xxxxxx.ips</code>
+    </p>
+
+    <pre><code>Thread 2 name:  Dispatch queue: com.apple.wifid.managerQueue
+Thread 2 Crashed:
+0   libsystem_platform.dylib      	0x00000001ebcb9724 _platform_strlen + 4
+1   CoreFoundation                	0x00000001a381d84c __CFStringAppendFormatCore + 8812
+2   CoreFoundation                	0x00000001a381efa8 _CFStringCreateWithFormatAndArgumentsReturningMetadata + 160
+3   WiFiPolicy                    	0x00000001d0895f8c -[WFLogger WFLog:message:] + 192
+4   ???                           	0x000000010692c00c 0 + 4405248012
+5   wifid                         	0x0000000100f58a74 0x100e40000 + 1149556
+6   wifid                         	0x0000000100f58c74 0x100e40000 + 1150068
+</code></pre>
+
+    <p>所以这真的是格式化字符串错误！</p>
+    <p>反编译 dyld_shared_cache 中的这个函数
+      <code>-[WFLogger WFLog:message:]</code>，有2处对<code>CFStringCreateWithFormatAndArguments</code>的引用
+    </p>
+
+    <pre>
+<code class="language-c" data-lang="c">v7 <span style="color:#f92672">=</span> j__CFStringCreateWithCString_107(<span style="color:#ae81ff">0LL</span>, a4, <span style="color:#ae81ff">0x8000100u</span>); <span style="color:#75715e">// the format string
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> ( v7 <span style="color:#f92672">||</span> (v7 <span style="color:#f92672">=</span> j__CFStringCreateWithCString_107(<span style="color:#ae81ff">0LL</span>, a4, <span style="color:#ae81ff">0</span>)) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0LL</span> )
+  {
+  <span style="color:#66d9ef">if</span> ( self<span style="color:#f92672">-&gt;</span>_destination <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span> )
+  {
+    v8 <span style="color:#f92672">=</span> j__CFStringCreateWithFormatAndArguments_26(<span style="color:#ae81ff">0LL</span>, <span style="color:#ae81ff">0LL</span>, v7, v21);
+    v18[<span style="color:#ae81ff">3</span>] <span style="color:#f92672">=</span> (<span style="color:#66d9ef">__int64</span>)v8;
+  }
+</code>
+</pre>
+
+    <pre>
+<code class="language-c" data-lang="c"> <span style="color:#66d9ef">if</span> ( self<span style="color:#f92672">-&gt;</span>_destination <span style="color:#f92672">!=</span> <span style="color:#ae81ff">2</span>
+  <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#f92672">!</span>self<span style="color:#f92672">-&gt;</span>_wflRunningOnWatchClassDevice <span style="color:#f92672">||</span> self<span style="color:#f92672">-&gt;</span>_wflEnableDualLoggingOnWatchClassDevice) )
+{
+  <span style="color:#f92672">*</span>(_QWORD <span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>v16.tm_sec <span style="color:#f92672">=</span> <span style="color:#ae81ff">0LL</span>;
+  <span style="color:#f92672">*</span>(_QWORD <span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>v16.tm_hour <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>v16;
+  <span style="color:#f92672">*</span>(_QWORD <span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>v16.tm_mon <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x2020000000LL</span>;
+  <span style="color:#f92672">*</span>(_QWORD <span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>v16.tm_wday <span style="color:#f92672">=</span> <span style="color:#ae81ff">0LL</span>;
+  v10 <span style="color:#f92672">=</span> j__CFStringCreateWithFormatAndArguments_26(<span style="color:#ae81ff">0LL</span>, <span style="color:#ae81ff">0LL</span>, v7, v21); <span style="color:#75715e">// &lt;-- here
+</span></code>
+</pre>
+
+    <p>
+      用lldb debug这个issue很痛了，因为这个method太常见了。因此，使用frida
+      <code>frida-trace -U wifid -m '-[WFLogger WFLog:message:]'</code>,然后使用以下通知脚本：
+    </p>
+
+    <pre>
+<code class="language-js" data-lang="js">  <span style="color:#a6e22e">onEnter</span>(<span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">args</span>, <span style="color:#a6e22e">state</span>) {
+  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">msg</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">''</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">args</span>[<span style="color:#ae81ff">3</span>].<span style="color:#a6e22e">readUtf8String</span>();
+  <span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`-[WFLogger WFLog:</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">args</span>[<span style="color:#ae81ff">2</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74"> message:</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">msg</span><span style="color:#e6db74">}</span><span style="color:#e6db74">]`</span>);
+  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">indexOf</span>(<span style="color:#e6db74">'%p%s%s%s%s%n'</span>) <span style="color:#f92672">&gt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+      <span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">args</span>[<span style="color:#a6e22e">i</span>], <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">stringify</span>(<span style="color:#a6e22e">Process</span>.<span style="color:#a6e22e">findRangeByAddress</span>(<span style="color:#a6e22e">args</span>[<span style="color:#a6e22e">i</span>])));
+    }
+
+    <span style="color:#a6e22e">log</span>(<span style="color:#e6db74">'called from:\n'</span> <span style="color:#f92672">+</span>
+      <span style="color:#a6e22e">Thread</span>.<span style="color:#a6e22e">backtrace</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">Backtracer</span>.<span style="color:#a6e22e">ACCURATE</span>)
+      .<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">DebugSymbol</span>.<span style="color:#a6e22e">fromAddress</span>).<span style="color:#a6e22e">join</span>(<span style="color:#e6db74">'\n'</span>) <span style="color:#f92672">+</span> <span style="color:#e6db74">'\n'</span>);
+  }
+},
+</code>
+</pre>
+    <p>这是在崩溃之前的日志：</p>
+
+    <pre><code>17863 ms -[WFLogger WFLog:0x3 message:Dequeuing command type: “%@” pending commands: %ld]
+
+17863 ms -[WFLogger WFLog:0x3 message:{ASSOC+} Attempting Apple80211AssociateAsync to %p%s%s%s%s%n]
+</code></pre>
+
+    <p>根据backtrace，这就是根本原因：</p>
+
+    <pre>
+<code class="language-c" data-lang="c">v27 <span style="color:#f92672">=</span> sub_1000A25D4(v21);
+v28 <span style="color:#f92672">=</span> objc_msgSend(
+        <span style="color:#f92672">&amp;</span>OBJC_CLASS___NSString,
+        <span style="color:#e6db74">"stringWithFormat:"</span>,
+        CFSTR(<span style="color:#e6db74">"Attempting Apple80211AssociateAsync to %@"</span>),
+        v27);
+v29 <span style="color:#f92672">=</span> objc_msgSend(<span style="color:#f92672">&amp;</span>OBJC_CLASS___NSString, <span style="color:#e6db74">"stringWithFormat:"</span>, CFSTR(<span style="color:#e6db74">"{ %@+} %@"</span>), CFSTR(<span style="color:#e6db74">"ASSOC"</span>), v28);
+v30 <span style="color:#f92672">=</span> objc_autoreleasePoolPush();
+v31 <span style="color:#f92672">=</span> (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>)qword_100251888;
+<span style="color:#66d9ef">if</span> ( qword_100251888 )
+{
+    v32 <span style="color:#f92672">=</span> objc_msgSend(v29, <span style="color:#e6db74">"UTF8String"</span>);
+    objc_msgSend(v31, <span style="color:#e6db74">"WFLog:message:"</span>, <span style="color:#ae81ff">3LL</span>, v32);
+}
+objc_autoreleasePoolPop(v30);
+</code>
+</pre>
+
+    <p>它将 SSID
+      concat到一个格式字符串，并将其传递给<code>WFLog:message:</code>方法，目的地是3，所以是<code>CFStringCreateWithFormatAndArguments</code>的第二个xref引发了拒绝服务。
+    </p>
+    <p>对于可利用性，目前还没有问题，其余的参数也不像是可以控制的。因此，我不认为这个bug是可利用的。毕竟，要触发这个bug，你需要连接到该WiFi，其中的SSID对受害者是可见的。钓鱼Wi-Fi或许更有效。</p>
+    <p>This is a version from
+      <a href="https://blog.chichou.me/" target="_blank">Schou</a>.
+    </p>
+
+
+  </main>
+
+  <footer>
+    <span>Copyright &copy; SunBK201 Ushiromiya</span>
+    <a hidden href="https://www.sunbk201.site"><img
+        src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fwww.sunbk201.site&count_bg=%2379C83D&title_bg=%234F4F4F&icon=bloglovin.svg&icon_color=%23E7E7E7&title=hits&edge_flat=false" />
+    </a>
+  </footer>
+  
+  <script src="/instantclick.min.js" data-no-instant></script>
+  <script data-no-instant>InstantClick.init();</script>
+</body>
+
+</html>

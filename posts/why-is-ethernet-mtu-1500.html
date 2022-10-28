@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>SunBK201</title>
+  <meta name="author" content="SunBK201">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png">
+  <link rel="stylesheet" href="/style.css">
+  <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="SunBK201">
+  <style>
+    @import url('/fonts.css');
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1><a rel="author" href="/">SunBK201</a></h1>
+    <nav>
+      <a href="/about.html">About</a>
+      <a href="/feed.xml" data-no-instant>RSS</a>
+    </nav>
+  </header>
+
+  <main>
+    <header>
+      <time datetime="2021-07-15">2021-07-15</time>
+      <h1>1500字节是如何成为互联网的MTU的？</h1>
+    </header>
+
+    <p>以太网无处不在，数以万计的硬件供应商都在讨论和实现它。然而，几乎每个以太网链路都都有一个共同的数字，那就是MTU：</p>
+    <pre><code>$ ip l
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 state UNKNOWN
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: enp5s0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 state UP 
+    link/ether xx:xx:xx:xx:xx:xx brd ff:ff:ff:ff:ff:ff
+</code></pre>
+
+    <p>
+      <img src="https://sunbk201.oss-cn-beijing.aliyuncs.com/img/20210715135605.png" alt="">
+    </p>
+
+    <p>MTU（最大传输单元）规定了一个数据包可以有多大。一般来说，当你在自己的局域网上与其他设备通信时，MTU大约为1500字节，互联网也几乎普遍采用1500字节。然而，这并不意味着这些链路层技术不能传输更大的数据包。</p>
+    <p>例如，802.11（WiFi）的MTU为2304字节，或者如果你的网络使用
+      <a href="https://en.wikipedia.org/wiki/Fiber_Distributed_Data_Interface"
+        target="_blank">FDDI</a>，那么你的MTU约为4352字节。以太网本身有一个 “巨型帧 “的概念，MTU可以设置为9000字节（在支持的网卡、交换机和路由器上）。
+    </p>
+    <p>然而，这些设定在互联网上几乎无关大局。由于互联网的骨干网现在大多是由以太网链路组成的，因此事实上数据包的最大尺寸现在被非正式地设定为1500字节，以避免数据包在链路上被
+      <a href="https://en.wikipedia.org/wiki/IP_fragmentation" target="_blank">分片</a>。
+    </p>
+    <p>从表面上看，1500是一个奇怪的数字，我们通常期望计算中的许多常数都是基于数学常量的，比如2的幂。</p>
+    <p>那么，1500是怎么来的，为什么我们还在使用它？</p>
+
+    <h2>神奇的数字</h2>
+
+    <p>以太网的第一次重大突破是以10BASE-2（廉价网）和10BASE-5（稠密网）的形式出现的，这些数字大致表明一个网段可以跨越多少百米。</p>
+    <p>由于当时有许多竞争性协议，而且存在硬件限制，以太网原作者在一封电子邮件中指出，数据包缓冲区的内存要求在神奇的1500数字上有一些作用。</p>
+    <blockquote>
+      <p>回过头来看，一个较长的最大值可能会更好，但如果它在早期增加了网卡的成本，可能会阻止以太网的广泛接受。</p>
+    </blockquote>
+    <p>然而，这并不是故事的全部。1980年发表的
+      <a href="https://blog.benjojo.co.uk/asset/4Up5QvCjAa" target="_blank"><em>Ethernet: Distributed Packet Switching
+          for Local Computer Networks</em></a>
+      一文是对网络上较大数据包的效率成本分析的早期说明。这在当时对以太网特别重要，因为以太网网络将在所有系统之间共享相同的同轴电缆，或者以太网集线器，一次只允许一个数据包在以太网段的所有成员之间传输。
+    </p>
+    <p>我们必须选择一个数字，使得数据在这些共享（有时是繁忙的）网段上的传输延迟不会太高，但这也意味着数据包头的开销不会太大。(见上面链接的论文第15-16页的一些表格)</p>
+    <p>看来，当时的工程师们最多只挑选了1500字节，或大约12000比特作为最佳"安全"值。</p>
+    <p>从那时起，各种其他的传输系统陆续出现，但其中最低的MTU值仍然是以太网的1500字节。大于网络上的最低MTU将导致IP分片，或者需要进行路径MTU检测。这两种情况都有各自的问题。即使是大型操作系统供应商有时也会将默认MTU
+      <a href="https://archive.nanog.org/mailinglist/mailarchives/old_archive/1998-02/msg00064.html"
+        target="_blank">降到更低</a>。
+    </p>
+
+    <h2>效率问题</h2>
+
+    <p>所以现在我们知道，互联网的MTU上限为1500，主要是由于传统的延迟数字和硬件限制，这对互联网的效率有多大影响？</p>
+    <p>
+      <img src="https://sunbk201.oss-cn-beijing.aliyuncs.com/img/20210715141919.png" alt="">
+    </p>
+    <p>
+      如果我们看一下一个主要的互联网流量交换点（AMS-IX）的数据，我们会发现，至少有20%经过交换点的数据包是最大尺寸的。我们还可以看到局域网的总流量：
+    </p>
+    <p>
+      <img src="https://sunbk201.oss-cn-beijing.aliyuncs.com/img/20210715142133.png" alt="">
+    </p>
+
+    <p>如果你把这两张图结合起来，你得到的结果大致上是这样的。这是对每个数据包大小区间的流量的估计。</p>
+    <p>
+      <img src="https://sunbk201.oss-cn-beijing.aliyuncs.com/img/20210715142242.png" alt="">
+    </p>
+
+    <p>或者，如果我们只看所有这些以太网序言和报头引起的流量，我们会得到同样的图表，但有不同的尺度。</p>
+    <p>
+      <img src="https://sunbk201.oss-cn-beijing.aliyuncs.com/img/20210715142400.png" alt="">
+    </p>
+
+    <p>
+      这表明大量的带宽被花在最大的数据包类的包头上。由于峰值流量显示最大的数据包桶的开销约为246GBit/s，我们可以假设，如果我们在有条件的情况下都采用了巨型帧，那么这个开销将只有约41GBit/s。
+    </p>
+    <p>但我认为在这一点上，宽广的互联网上已经有人这样做过。虽然一些
+      <a href="https://web.archive.org/web/20200108213905/https://he.net/ip_transit.html"
+        target="_blank">互联网通信公司以9000MTU运营</a>，但绝大多数并非如此，而且一次又一次地
+      <a href="https://en.wikipedia.org/wiki/IPv6_deployment" target="_blank">证明</a>，共同改变互联网的想法是非常困难的。
+    </p>
+    <p>This is a version from
+      <a href="https://blog.benjojo.co.uk/" target="_blank">benjojo</a>.
+    </p>
+
+  </main>
+
+  <footer>
+    <span>Copyright &copy; SunBK201 Ushiromiya</span>
+    <a hidden href="https://www.sunbk201.site"><img
+        src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fwww.sunbk201.site&count_bg=%2379C83D&title_bg=%234F4F4F&icon=bloglovin.svg&icon_color=%23E7E7E7&title=hits&edge_flat=false" />
+    </a>
+  </footer>
+  
+  <script src="/instantclick.min.js" data-no-instant></script>
+  <script data-no-instant>InstantClick.init();</script>
+</body>
+
+</html>

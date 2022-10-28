@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>SunBK201</title>
+  <meta name="author" content="SunBK201">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png">
+  <link rel="stylesheet" href="/style.css">
+  <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="SunBK201">
+  <style>
+    @import url('/fonts.css');
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1><a rel="author" href="/">SunBK201</a></h1>
+    <nav>
+      <a href="/about.html">About</a>
+      <a href="/feed.xml" data-no-instant>RSS</a>
+    </nav>
+  </header>
+
+  <main>
+    <header>
+      <time datetime="2022-01-31">2022-01-31</time>
+      <h1>VPN是如何接管你的流量的？</h1>
+    </header>
+
+    <p>
+      如今，魔法道具逐渐成为了一些同学的常用App，甚至必备App，了解这些道具是如何接管你的网络流量显得很重要。
+    </p>
+    <p>
+      目前，常见的接管方式有3种：
+    <ul>
+      <li>系统配置代理</li>
+      <li>虚拟网卡接管</li>
+      <li>网关透明代理</li>
+    </ul>
+    这里我主要谈前两种。
+    </p>
+
+    <h2>系统配置代理</h2>
+    <p>
+      这种方式是最易实现的方式，绝大多数的操作系统都会向用户提供配置系统代理的选项，用户在手动或自动配置系统代理后，
+      向 Internet 发出的网络连接并不会直接向目标服务器发送，而是通过代理服务器转发给目标服务器。
+    </p>
+    <p>
+      但由于系统只支持HTTP、HTTPS、SOCKS等代理协议，所以在使用这种方式时，用户配置的代理服务器一般并非远端代理服务器，
+      而是127.0.0.1，通过将网络流量发送到位于本地的代理客户端，通过代理客户端对网络代理协议进行转换，最终将流量发送到远端代理服务器的代理服务端。
+    </p>
+    <p>
+      对于部分 GUI程序，用户可以直接通过操作系统提供的选项进行配置系统代理，诸如 Web 浏览器的网路连接都可以通过这种方式接管。
+    </p>
+    <p>
+      对于 wget、curl、git 等 CLI 工具，我们可以通过设置环境变量 http_proxy，https_proxy 实现接管。
+    </p>
+    <h2>虚拟网卡接管</h2>
+    <p>
+      第一种系统配置代理的方式看似美好，但实际上又很大的限制。
+      系统配置代理并不能接管系统中的大多数流量，因为这种方式需要程序亲自去支持系统代理，也就是说如果软件的开发者并不打算
+      支持系统代理，那么系统配置代理的方式并不能接管到这些软件发出的流量。
+      这也就是为什么有些同学即使开了代理，也依旧无法连接外服游戏服务器进行流畅低延迟网游。
+    </p>
+
+    <p>
+      既然系统配置代理有如此大的限制，那么我们需要怎么样的方式对我们系统中的绝大多数流量进行接管，简单来说，我们需要对进程进行强制接管，让程序无感知，而虚拟网卡接管就可以实现。
+    </p>
+
+    <p>
+      简单来说，这是一种网络层级的接管，这种方式是通过在操作系统中建立虚拟网卡，并修改系统中的全局路由表实现的。
+      这里有2个关键点，一个是虚拟网卡，一个是全局路由表。
+    </p>
+
+    <p>
+      虚拟网卡接管到的是网络层的流量，因此我们需要实现一个 TCP 协议栈对接管到的数据包进行重新的拆包解析，这也就是虚拟网卡的主要工作。
+    </p>
+
+    <blockquote>
+      <p>
+        TUN 是操作系统内核提供的三层虚拟网络设备。
+      </p>
+      <p>
+        TAP 是二层(以太网)虚拟网络设备。
+      </p>
+    </blockquote>
+
+    <p>
+      有了虚拟网卡，我们还需要让操作系统能够把网络流量发送给我们的虚拟网卡，而不是物理网卡，这就是全局路由表的工作。
+      任何系统网络层以上的网络流量都要按照路由表进行转发，因此修改系统全局路由表就是虚拟网卡接管的关键。
+    </p>
+    <p>
+      那么，我们该如何修改路由表才能让网络流向虚拟网卡，下面我们来看下我的系统的路由表：
+    </p>
+    <pre><code>Internet:
+Destination        Gateway            Flags           Netif Expire
+default            192.168.0.1        UGScg             en0       
+1                  198.18.0.1         UGSc            utun5       
+2/7                198.18.0.1         UGSc            utun5       
+4/6                198.18.0.1         UGSc            utun5       
+8/5                198.18.0.1         UGSc            utun5       
+16/4               198.18.0.1         UGSc            utun5       
+32/3               198.18.0.1         UGSc            utun5       
+64/2               198.18.0.1         UGSc            utun5       
+128.0/1            198.18.0.1         UGSc            utun5       
+127                127.0.0.1          UCS               lo0       
+127.0.0.1          127.0.0.1          UH                lo0       
+169.254            link#11            UCS               en0      !
+192.168.0          link#11            UCS               en0      !
+192.168.0.1/32     link#11            UCS               en0      !
+192.168.0.1        b0:95:8e:ac:40:d4  UHLWIir           en0   1193
+192.168.0.104/32   link#11            UCS               en0      !
+192.168.0.255      ff:ff:ff:ff:ff:ff  UHLWbI            en0      !
+198.18.0/15        198.18.0.1         UGSc            utun5       
+198.18.0.1         198.18.0.1         UH              utun5       
+224.0.0/4          link#11            UmCS              en0      !
+224.0.0.251        1:0:5e:0:0:fb      UHmLWI            en0       
+239.255.255.250    1:0:5e:7f:ff:fa    UHmLWI            en0       
+255.255.255.255/32 link#11            UCS               en0      !
+</code></pre>
+    <p>
+      首先，第一条是我的默认路由，它的出口是我的物理网卡。
+      接下来的第二条到第九条则是我们的虚拟网卡接管方式所修改的，而这几条是最关键的。
+      对于配置过路由表的同学可能对其他几条路由的含义是了解的，但是对于第二条到第九条，可能并不熟悉，甚至感到怪异，
+      因为这种路由太少见了。
+    </p>
+    <p>
+      让我解释下，198.18.0.1 是我的虚拟网卡ip地址，即utun5，也就是我们的网络流量的目的地址。
+      而第二条到第九条的 Destination， <code>1</code>, <code>2/7</code>, <code>4/6</code>, <code>8/5</code>,
+      <code>16/4</code>, <code>32/3</code>, <code>64/2</code>, <code>128.0/1</code>，是代表着各网络ip端：
+    <ul>
+      <li><code>1 : 1.0.0.0 - 1.255.255.255</code></li>
+      <li><code>2/7 : 2.0.0.0 - 3.255.255.255</code></li>
+      <li><code>4/6 : 4.0.0.0 - 7.255.255.255</code></li>
+      <li><code>8/5 : 8.0.0.0 - 15.255.255.255</code></li>
+      <li><code>16/4 : 16.0.0.0 - 31.255.255.255</code></li>
+      <li><code>32/3 : 32.0.0.0 - 63.255.255.255</code></li>
+      <li><code>64/2 : 64.0.0.0 - 127.255.255.255</code></li>
+      <li><code>128.0/1 : 128.0.0.0 - 255.255.255.255</code></li>
+    </ul>
+    可以看到，这些ip段覆盖的全部的IPv4的地址，因此所有的出口流量都会流向我们的虚拟网卡utun5，而不是第一条默认路由。
+    </p>
+
+    <h2>网关透明代理</h2>
+    <p>
+      这种代理方式将代理客户端从我们的个人终端转移到路由网关，个人终端无需进行任何配置，因此称作透明代理。
+      在这种方式下，我们的网关作为代理客户端负责加密流量拆包和封包。可以理解为第二种方式中虚拟网卡就是这里的路由网关。
+      只不过这里路由网关是物理的，并非虚拟的。
+      当然网关可以是虚拟的，这也就是一些客户端实现网管代理模式的思路。
+
+    </p>
+    <p>
+      在网关透明代理方式下，局域网下所有终端设备的网络流量都可以被网关接管，因此，这种网关透明代理方式可以说是最一劳永逸的方式。
+    </p>
+    <p>
+      总的来说，由于传统的系统配置代理方式的局限，虚拟网卡接管方式已经成为主流代理客户端的标配，而通过虚拟网卡与网关代理的结合，
+      又诞生出虚拟网卡接管局域网实现网关级代理的新方式，这些多样的方式让我们配置网络代理变得更加简单，更加灵活。
+    </p>
+    <br>
+
+  </main>
+
+  <footer>
+    <span>Copyright &copy; SunBK201 Ushiromiya</span>
+    <a hidden href="https://www.sunbk201.site"><img
+        src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fwww.sunbk201.site&count_bg=%2379C83D&title_bg=%234F4F4F&icon=bloglovin.svg&icon_color=%23E7E7E7&title=hits&edge_flat=false" />
+    </a>
+  </footer>
+
+  <script src="/instantclick.min.js" data-no-instant></script>
+  <script data-no-instant>InstantClick.init();</script>
+</body>
+
+</html>
