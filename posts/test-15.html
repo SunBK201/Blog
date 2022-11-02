@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>全新方案-懒人福音-无需手动编译修改UA-校园网防检测</title>
+  <meta name="author" content="SunBK201">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png">
+  <link rel="stylesheet" href="/style.css">
+  <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="SunBK201">
+  <style>
+    @import url('/fonts.css');
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1><a rel="author" href="/">SunBK201</a></h1>
+    <nav>
+      <a href="/about.html">About</a>
+      <a href="/feed.xml" data-no-instant>RSS</a>
+    </nav>
+  </header>
+
+  <main>
+    <header>
+      <time datetime="2021-07-30">2021-07-30</time>
+      <h1>全新方案-懒人福音-无需手动编译修改UA-校园网防检测</h1>
+    </header>
+
+    <p>
+      <a href="https://blog.sunbk201.site/crack-campus-network.html">关于某大学校园网共享上网检测机制的研究与解决方案</a>
+    </p>
+    <p>
+      <a href="https://sunbk201public.notion.site/OpenWrt-f59ae1a76741486092c27bc24dbadc59">OpenWrt编译与防检测部署教程</a>
+    </p>
+    <p>阅读过上面两篇文章的同学可以发现，手动编译OpenWrt是一件很痛苦的事。 显然对于一些动手能力不强的同学来说，通过 UA2F 修改UA是比较困难的。而且，UA2F从设计层面上也存在一些问题，例如无法处理网卡分包等情况。</p>
+    <p>因此，我们需要一种更加简单的方案，既能无需编译OpenWrt，又能更好的满足我们的需求。</p>
+    <p>
+      之前我曾经提到过我们可以通过加密流量来实现防检测，但我当时并没有采取这个策略，因为进行全局加密网络流畅度影响太大， 而进行部分加密目前市面上还没有很好的解决方案（之前是这么认为），目前大多数加密软件都是基于规则的加密，但支持的多为针对域名的加密。
+    </p>
+    <p>
+      然而我们的需求是针对http应用层的加密，这类加密方案目前支持的不多。
+    </p>
+    <p>经过我深入了解，Clash 中 DstPort 是我们最理想的规则选项，我们可以指定代理目标端口为http的80端口从而实现http应用层的加密。</p>
+    <p>此外，除了针对http的加密外，我们还可以通过支持Mitm的网络调试工具对http中UA进行重写以达到修改UA的目的。</p>
+    <p>基于上面的分析，我总结了以下方案：</p>
+
+    <h2>Windows 用户</h2>
+    <p>使用Clash，添加规则：</p>
+<pre><code>- DST-PORT,80,proxy</code></pre>
+    <p>加入以上规则即可实现针对80端口的加密</p>
+
+    <h2>Andorid 用户</h2>
+    <p>使用Clash，添加规则：</p>
+<pre><code>- DST-PORT,80,proxy</code></pre>
+    <p>加入以上规则即可实现针对80端口的加密</p>
+
+    <h2>iOS 用户</h2>
+    <p>使用Quantumult X/Surge等支持重写的工具，添加重写规则：</p>
+<pre><code># Quantumult X
+^http:// url request-header (\r\n)User-[A|a]gent:.+(\r\n) request-header $1User-Agent: F$2
+</code></pre>
+<pre><code># Surge
+^http:// header-replace User-Agent F
+</code></pre>
+    <p>加入以上规则即可实现针对UA的重写</p>
+    
+    <h2>Mac 用户</h2>
+    <p>使用Quantumult X/Surge等支持重写的工具，添加重写规则：</p>
+<pre><code># Quantumult X
+^http:// url request-header (\r\n)User-[A|a]gent:.+(\r\n) request-header $1User-Agent: F$2
+</code></pre>
+<pre><code># Surge
+^http:// header-replace User-Agent F
+</code></pre>
+    <p>加入以上规则即可实现针对UA的重写</p>
+
+    <h2>OpenWrt 配置</h2>
+    <p>使用OpenClash，添加规则：</p>
+<pre><code>- DST-PORT,80,proxy</code></pre>
+    <p>如果在OpenWrt加入这条配置，那么就无需进行其他终端的配置了。</p>
+
+    <h2>其他</h2>
+    <p>
+      对于 TTL 和 NTP 方面，我们无需进行手动编译，常见的OpenWrt固件都能够默认支持。 对于 IPID，我认为无需关注，基于IPID的检测我认为是不现实且很少见的。
+    </p>
+    <p>如果有疑问可以加讨论组：<a href="https://t.me/crack_campus_network">Telegram</a></p>
+
+
+  </main>
+
+  <footer>
+    <span>Copyright &copy; SunBK201 Ushiromiya</span>
+    <a hidden href="https://www.sunbk201.site"><img
+        src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fwww.sunbk201.site&count_bg=%2379C83D&title_bg=%234F4F4F&icon=bloglovin.svg&icon_color=%23E7E7E7&title=hits&edge_flat=false" />
+    </a>
+  </footer>
+  
+  <script src="/instantclick.min.js" data-no-instant></script>
+  <script data-no-instant>InstantClick.init();</script>
+</body>
+
+</html>
