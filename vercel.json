@@ -2,11 +2,6 @@
     "cleanUrls": true,
     "redirects": [
         {
-            "source": "/openwrt-compile",
-            "destination": "https://sunbk201public.notion.site/sunbk201public/OpenWrt-f59ae1a76741486092c27bc24dbadc59",
-            "permanent": false
-        },
-        {
             "source": "/shadowsocks-libev-deploy",
             "destination": "https://sunbk201public.notion.site/Shadowsocks-libev-f78f777f132b4caea67b38736cc3d662",
             "permanent": false
