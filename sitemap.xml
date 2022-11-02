@@ -31,6 +31,15 @@
         <loc>http://blog.sunbk201.site/posts/why-oo-sucks</loc>
     </url>
     <url>
+        <loc>http://blog.sunbk201.site/posts/shadowsocks-libev-deploy</loc>
+    </url>
+    <url>
+        <loc>http://blog.sunbk201.site/posts/shellclash-deploy</loc>
+    </url>
+    <url>
+        <loc>http://blog.sunbk201.site/posts/openwrt-compile</loc>
+    </url>
+    <url>
         <loc>http://blog.sunbk201.site/posts/change-ua-by-proxy</loc>
         <priority>1.0</priority>
     </url>
