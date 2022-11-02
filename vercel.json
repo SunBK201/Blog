@@ -16,5 +16,11 @@
             "destination": "https://sunbk201public.notion.site/ShellClash-d199f43309e44ab4b4d4ece01dbac3bb",
             "permanent": false
         }
+    ],
+    "rewrites": [
+        {
+            "source": "/openwrt-compile",
+            "destination": "https://sunbk201public.notion.site/sunbk201public/OpenWrt-f59ae1a76741486092c27bc24dbadc59"
+        }
     ]
 }
