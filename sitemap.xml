@@ -32,9 +32,11 @@
     </url>
     <url>
         <loc>http://blog.sunbk201.site/posts/change-ua-by-proxy</loc>
+        <priority>1.0</priority>
     </url>
     <url>
         <loc>http://blog.sunbk201.site/posts/crack-campus-network</loc>
+        <priority>1.0</priority>
     </url>
     <url>
         <loc>http://blog.sunbk201.site/posts/hello-world</loc>
