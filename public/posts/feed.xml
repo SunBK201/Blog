@@ -6,7 +6,16 @@
     <description>Recent content in Posts on SunBK201_Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 31 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://blog.sunbk201.site/posts/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 15 Jan 2023 00:28:23 +0800</lastBuildDate><atom:link href="http://blog.sunbk201.site/posts/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>命令行界面设计指南</title>
+      <link>http://blog.sunbk201.site/posts/cli-guidelines-zh/</link>
+      <pubDate>Sun, 15 Jan 2023 00:28:23 +0800</pubDate>
+      
+      <guid>http://blog.sunbk201.site/posts/cli-guidelines-zh/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>VPN 是如何接管你的流量的？</title>
       <link>http://blog.sunbk201.site/posts/vpn-route/</link>
