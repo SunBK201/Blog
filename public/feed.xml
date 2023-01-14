@@ -6,7 +6,16 @@
     <description>Recent content on SunBK201_Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 31 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://blog.sunbk201.site/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 15 Jan 2023 00:28:23 +0800</lastBuildDate><atom:link href="http://blog.sunbk201.site/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>命令行界面设计指南</title>
+      <link>http://blog.sunbk201.site/posts/cli-guidelines-zh/</link>
+      <pubDate>Sun, 15 Jan 2023 00:28:23 +0800</pubDate>
+      
+      <guid>http://blog.sunbk201.site/posts/cli-guidelines-zh/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>About</title>
       <link>http://blog.sunbk201.site/about/</link>
@@ -16,12 +25,12 @@
       <description>&lt;p&gt;hi guys!&lt;/p&gt;
 &lt;p&gt;Contact Me: &lt;a href=&#34;mailto:i@sunbk201.com&#34;&gt;i@sunbk201.com&lt;/a&gt;&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Twitter @SunBK201&lt;/li&gt;
-&lt;li&gt;GitHub @SunBK201&lt;/li&gt;
+&lt;li&gt;Twitter &lt;a href=&#34;https://twitter.com/SunBK201&#34;&gt;@SunBK201&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;GitHub &lt;a href=&#34;https://github.com/SunBK201&#34;&gt;@SunBK201&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;PlayStation @SunBK201&lt;/li&gt;
 &lt;li&gt;Spotify @SunBK201&lt;/li&gt;
 &lt;li&gt;YouTube @SunBK201&lt;/li&gt;
-&lt;li&gt;RSS @SunBK201&lt;/li&gt;
+&lt;li&gt;RSS (@SunBK201)[http://blog.sunbk201.site/feed]&lt;/li&gt;
 &lt;/ul&gt;
 </description>
     </item>
