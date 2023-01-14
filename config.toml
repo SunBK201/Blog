@@ -1,0 +1,8 @@
+baseURL = 'http://blog.sunbk201.site/'
+languageCode = 'zh-cn'
+title = 'SunBK201_Blog'
+
+[outputFormats]
+  [outputFormats.RSS]
+    baseName = "feed"
+    mediatype = "application/rss"

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on SunBK201_Blog</title>
+    <link>http://blog.sunbk201.site/categories/</link>
+    <description>Recent content in Categories on SunBK201_Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language><atom:link href="http://blog.sunbk201.site/categories/feed.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>
