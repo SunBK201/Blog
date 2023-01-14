@@ -6,7 +6,7 @@ draft: false
 
 hi guys! 
 
-Contact Me: i@sunbk201.com
+Contact Me: me@sunbk201.com
 
 - Twitter [@SunBK201](https://twitter.com/SunBK201)
 - GitHub [@SunBK201](https://github.com/SunBK201)
