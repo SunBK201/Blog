@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="UTF-8">
+    <title>SunBK201</title>
+    <meta name="author" content="SunBK201">
+    <meta property="og:title" content="SunBK201" />
+    <meta property="og:type" content="website">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/favicon.png" type="image/svg+xml">
+    <link rel="shortcut icon" href="/favicon.png" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="stylesheet" href="/css/style.css">
+    <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="SunBK201">
+    <style>
+        @import url('/css/fonts.css');
+    </style>
+    <svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+        <filter id="x">
+            <feTurbulence baseFrequency="0.01 0.02" numOctaves="2" result="t0"></feTurbulence>
+            <feDisplacementMap in="SourceGraphic" in2="t0" scale="4" result="d0"></feDisplacementMap>
+            <feComposite in="SourceGraphic" in2="d0" operator="atop" result="0"></feComposite>
+            <feTurbulence baseFrequency="1" numOctaves="2" result="t1"></feTurbulence>
+            <feDisplacementMap in="0" in2="t1" scale="1" result="d1"></feDisplacementMap>
+            <feComposite in="0" in2="d1" operator="atop" result="1"></feComposite>
+            <feOffset in="1" dx="-3" dy="-3" />
+        </filter>
+    </svg>
+</head><body><header>
+    <h1><a rel="author" href="/">SunBK201</a></h1>
+    <nav>
+        <a href="/about">About</a>
+        <a href="/feed.xml" data-no-instant>RSS</a>
+    </nav>
+</header>
+<main>
+    <header>
+        <time datetime="2021-12-31 00:00:00 &#43;0000 UTC">2021-12-31</time>
+        <h1>正则表达式高阶使用：负向零宽度断言</h1>
+    </header>
+    <p>当我在写 Surge 的规则配置文件时，我发现我需要通过正则表达式使用 policy-regex-filter 进行过滤，具体的需求是：排除包含指定字符串的节点，过滤获得没有包含指定字符串的节点。</p>
+<p>这是个难题，平时使用正则表达式主要是“匹配”的思想，这次要使用“否定排除”的思想。</p>
+<p>零宽度断言 (zero-width-assertions) 解决了这个问题。 我们这里讨论的是否定的断言。 零宽度断言所匹配到的内容并不会保存到结果中去。</p>
+<pre tabindex="0"><code>^((?!hede).)*$
+</code></pre><p>上面的正则表达式是用来匹配排除包含 <code>hede</code> 的结果。</p>
+<p>一个字符串包含 n 个字符的 list，在每个字符的前后都包涵一个空的字符串，因此含有 n 个字符的 list 拥有 n+1 个空字符串。 我们来看下这个字符串 <code>&quot;ABhedeCD&quot;</code> :</p>
+<pre tabindex="0"><code>    ┌──┬───┬──┬───┬──┬───┬──┬───┬──┬───┬──┬───┬──┬───┬──┬───┬──┐
+S = │e1│ A │e2│ B │e3│ h │e4│ e │e5│ d │e6│ e │e7│ C │e8│ D │e9│
+    └──┴───┴──┴───┴──┴───┴──┴───┴──┴───┴──┴───┴──┴───┴──┴───┴──┘
+index    0      1      2      3      4      5      6      7
+</code></pre><p>其中，e 们都是空字符串，表达式 <code>(?!hede)</code>. 会检查每个的 e 的后面有没有 <code>“hede”</code> 子字符串，如果没有，<code>.</code> 会匹配任意一个字符（除了换行符），这种行为称为“零宽度断言”，因为他们没有消耗任何字符，仅仅只是在断言或证实某些东西。 因此，在上面的例子中，对于每个空字符串都会被验证其之后有无 <code>“hede”</code>，之后再与 . 匹配。 表达式 <code>(?!hede)</code>. 只会进行一次上面的验证，因此，我们将其成组重复多次：<code>((?!hede).)*</code>。 最后，我们锚定首尾：<code>^((?!hede).)*$</code>。</p>
+<p><code>&quot;ABhedeCD&quot;</code> 最终会在 <code>e3</code> 处失败，因为 <code>e3</code> 之后存在字符串 <code>“hede”</code>。</p>
+<p>我们再将其拓展一下，可以匹配排除包含多个指定字符串的节点：</p>
+<pre tabindex="0"><code>^((?!(本站|流量|过期|下架|用户群|官网|精简)).)*$
+</code></pre><p>准确来说，上面使用的属于「正向否定查找」，常规用法是：<code>x(?=y)</code>，含义是仅仅当 <code>x</code> 后面不跟着 <code>y</code> 时匹配 <code>x</code>。</p>
+<p>例如，仅仅当这个数字后面没有跟小数点的时候，<code>\d+(?!\.)</code> 匹配一个数字。正则表达式 <code>\d+(?!\.)</code> 匹配 <code>141</code> 而不是 <code>3.141</code>。</p>
+<p>但 <code>(?!hede).</code> 的这种用法属实少见，其思想是将其匹配字符之前的部分看作是一个字符串（空字符串）（<code>[空字符串](?!hede).</code>），而检查是这个空字符串的后面是否匹配 <code>(?!hede)</code>。</p>
+
+</main>
+<footer>
+    <span>Copyright &copy; SunBK201 Ushiromiya</span>
+    <a hidden href="https://www.sunbk201.site"><img
+            src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fwww.sunbk201.site&count_bg=%2379C83D&title_bg=%234F4F4F&icon=bloglovin.svg&icon_color=%23E7E7E7&title=hits&edge_flat=false" />
+    </a>
+</footer></body>
+</html>

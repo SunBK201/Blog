@@ -1,0 +1,9 @@
+{{ define "main" }}
+<main class="index">
+  {{ range where .Site.RegularPages "Type" "in" "posts" }}
+        <ul class="post-list">
+            <li><a href="{{.RelPermalink}}">{{ .Title }}</a></li>
+        </ul>
+  {{ end }}
+</main>
+{{ end }}
