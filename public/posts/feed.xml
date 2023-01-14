@@ -914,6 +914,16 @@ UI：代码如何与人互动是与它的实现应该分开考虑。让硬件的
     </item>
     
     <item>
+      <title>ShellClash 加密防检测教程</title>
+      <link>http://blog.sunbk201.site/posts/shellclash-deploy/</link>
+      <pubDate>Wed, 02 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>http://blog.sunbk201.site/posts/shellclash-deploy/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://sunbk201public.notion.site/sunbk201public/ShellClash-d199f43309e44ab4b4d4ece01dbac3bb&#34;&gt;https://sunbk201public.notion.site/sunbk201public/ShellClash-d199f43309e44ab4b4d4ece01dbac3bb&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>OpenWrt 编译与防检测部署教程</title>
       <link>http://blog.sunbk201.site/posts/openwrt-compile/</link>
       <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
