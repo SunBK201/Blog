@@ -2,6 +2,11 @@
     "cleanUrls": true,
     "redirects": [
         {
+            "source": "/posts/cli-guidelines-zh/",
+            "destination": "https://sunbk201.github.io/cli-guidelines-zh/",
+            "permanent": false
+        },
+        {
             "source": "/posts/openwrt-compile/",
             "destination": "https://sunbk201public.notion.site/sunbk201public/OpenWrt-f59ae1a76741486092c27bc24dbadc59",
             "permanent": false
