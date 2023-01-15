@@ -386,7 +386,78 @@ reader_thread.start()
       <pubDate>Mon, 21 Jun 2021 00:00:00 +0000</pubDate>
       
       <guid>http://blog.sunbk201.site/posts/quick-analysis-wifid/</guid>
-      <description></description>
+      <description>&lt;p&gt;数天前，Twitter 上的&lt;a href=&#34;https://twitter.com/vm_call/status/1405937492642123782&#34;&gt;一条推文&lt;/a&gt;爆出了一个iOS Wi-Fi 的 BUG：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;@vm_call: After joining my personal WiFi with the SSID “%p%s%s%s%s%n”, my iPhone permanently disabled it’s WiFi functionality. Neither rebooting nor changing SSID fixes it :~)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&#34;https://sunbk201.oss-cn-beijing.aliyuncs.com/img/20210621105740.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;看起来这是一个格式化字符串的错误，现在这种 BUG 已经很少见了。我用相同的 SSID 设置了一个热点，用我的测试设备尝试加入，wifid 很快就崩掉了。&lt;/p&gt;
+&lt;p&gt;以下是崩溃日志 &lt;code&gt;wifid-2021-06-20-xxxxxx.ips&lt;/code&gt;:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Thread 2 name:  Dispatch queue: com.apple.wifid.managerQueue
+Thread 2 Crashed:
+0   libsystem_platform.dylib      	0x00000001ebcb9724 _platform_strlen + 4
+1   CoreFoundation                	0x00000001a381d84c __CFStringAppendFormatCore + 8812
+2   CoreFoundation                	0x00000001a381efa8 _CFStringCreateWithFormatAndArgumentsReturningMetadata + 160
+3   WiFiPolicy                    	0x00000001d0895f8c -[WFLogger WFLog:message:] + 192
+4   ???                           	0x000000010692c00c 0 + 4405248012
+5   wifid                         	0x0000000100f58a74 0x100e40000 + 1149556
+6   wifid                         	0x0000000100f58c74 0x100e40000 + 1150068
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;所以这真的是格式化字符串错误！&lt;/p&gt;
+&lt;p&gt;反编译 dyld_shared_cache 中的这个函数 &lt;code&gt;-[WFLogger WFLog:message:]&lt;/code&gt;，有 2 处对 &lt;code&gt;CFStringCreateWithFormatAndArguments&lt;/code&gt; 的引用:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;v7 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; j__CFStringCreateWithCString_107(&lt;span style=&#34;color:#ae81ff&#34;&gt;0LL&lt;/span&gt;, a4, &lt;span style=&#34;color:#ae81ff&#34;&gt;0x8000100u&lt;/span&gt;); &lt;span style=&#34;color:#75715e&#34;&gt;// the format string
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; ( v7 &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; (v7 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; j__CFStringCreateWithCString_107(&lt;span style=&#34;color:#ae81ff&#34;&gt;0LL&lt;/span&gt;, a4, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)) &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0LL&lt;/span&gt; )
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; ( self&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;_destination &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; )
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    v8 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; j__CFStringCreateWithFormatAndArguments_26(&lt;span style=&#34;color:#ae81ff&#34;&gt;0LL&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0LL&lt;/span&gt;, v7, v21);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    v18[&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;__int64&lt;/span&gt;)v8;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; ( self&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;_destination &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;_wflRunningOnWatchClassDevice &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;_wflEnableDualLoggingOnWatchClassDevice) )
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;(_QWORD &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;v16.tm_sec &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0LL&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;(_QWORD &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;v16.tm_hour &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;v16;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;(_QWORD &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;v16.tm_mon &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0x2020000000LL&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;(_QWORD &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;v16.tm_wday &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0LL&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  v10 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; j__CFStringCreateWithFormatAndArguments_26(&lt;span style=&#34;color:#ae81ff&#34;&gt;0LL&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0LL&lt;/span&gt;, v7, v21); &lt;span style=&#34;color:#75715e&#34;&gt;// &amp;lt;-- here
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;用 lldb debug 这个 issue 很麻烦了，因为这个 method 太常见了。因此，使用 frida frida-trace -U wifid -m &amp;lsquo;-[WFLogger WFLog:message:]&amp;rsquo;, 然后使用以下通知脚本：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  onEnter(log, args, state) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; msg &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; args[&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;].readUtf8String();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  log(&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;`&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;[WFLogger WFLog:&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;$&lt;/span&gt;{args[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]} message:&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;$&lt;/span&gt;{msg}]&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;`&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (msg.indexOf(&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt;p&lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt;s&lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt;s&lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt;s&lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt;s&lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt;n&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (let i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;; i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      log(args[i], JSON.stringify(Process.findRangeByAddress(args[i])));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    log(&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt;called from:&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;\&lt;/span&gt;n&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      Thread.backtrace(this.context, Backtracer.ACCURATE)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      .map(DebugSymbol.fromAddress).join(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;\n&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;\n&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这是在崩溃之前的日志：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;17863 ms -[WFLogger WFLog:0x3 message:Dequeuing command type: “%@” pending commands: %ld]
+
+17863 ms -[WFLogger WFLog:0x3 message:{ASSOC+} Attempting Apple80211AssociateAsync to %p%s%s%s%s%n]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;根据 backtrace，这就是根本原因：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;v27 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; sub_1000A25D4(v21);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;v28 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; objc_msgSend(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;OBJC_CLASS___NSString,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;stringWithFormat:&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        CFSTR(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Attempting Apple80211AssociateAsync to %@&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        v27);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;v29 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; objc_msgSend(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;OBJC_CLASS___NSString, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;stringWithFormat:&amp;#34;&lt;/span&gt;, CFSTR(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;{ %@+} %@&amp;#34;&lt;/span&gt;), CFSTR(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ASSOC&amp;#34;&lt;/span&gt;), v28);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;v30 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; objc_autoreleasePoolPush();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;v31 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)qword_100251888;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; ( qword_100251888 )
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    v32 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; objc_msgSend(v29, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;UTF8String&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    objc_msgSend(v31, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;WFLog:message:&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;3LL&lt;/span&gt;, v32);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;objc_autoreleasePoolPop(v30);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;它将 SSID concat 到一个格式字符串，并将其传递给 &lt;code&gt;WFLog:message:&lt;/code&gt; 方法，目的地是 3，所以是 &lt;code&gt;CFStringCreateWithFormatAndArguments&lt;/code&gt; 的第二个 xref 引发了拒绝服务。&lt;/p&gt;
+&lt;p&gt;对于可利用性，目前还没有问题，其余的参数也不像是可以控制的。因此，我不认为这个 bug 是可利用的。毕竟，要触发这个 bug，你需要连接到该 WiFi，其中的 &lt;code&gt;SSID&lt;/code&gt; 对受害者是可见的。钓鱼 Wi-Fi 或许更有效。&lt;/p&gt;
+&lt;p&gt;This is a version from &lt;a href=&#34;https://blog.chichou.me/&#34;&gt;Schou&lt;/a&gt;.&lt;/p&gt;
+</description>
     </item>
     
     <item>
