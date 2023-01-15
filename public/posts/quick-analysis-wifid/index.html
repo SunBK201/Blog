@@ -37,7 +37,78 @@
         <time datetime="2021-06-21 00:00:00 &#43;0000 UTC">2021-06-21</time>
         <h1>关于 iOS SSID 格式字符串 BUG 的快速分析</h1>
     </header>
-    
+    <p>数天前，Twitter 上的<a href="https://twitter.com/vm_call/status/1405937492642123782">一条推文</a>爆出了一个iOS Wi-Fi 的 BUG：</p>
+<blockquote>
+<p>@vm_call: After joining my personal WiFi with the SSID “%p%s%s%s%s%n”, my iPhone permanently disabled it’s WiFi functionality. Neither rebooting nor changing SSID fixes it :~)</p>
+</blockquote>
+<p><img src="https://sunbk201.oss-cn-beijing.aliyuncs.com/img/20210621105740.png" alt=""></p>
+<p>看起来这是一个格式化字符串的错误，现在这种 BUG 已经很少见了。我用相同的 SSID 设置了一个热点，用我的测试设备尝试加入，wifid 很快就崩掉了。</p>
+<p>以下是崩溃日志 <code>wifid-2021-06-20-xxxxxx.ips</code>:</p>
+<pre tabindex="0"><code>Thread 2 name:  Dispatch queue: com.apple.wifid.managerQueue
+Thread 2 Crashed:
+0   libsystem_platform.dylib      	0x00000001ebcb9724 _platform_strlen + 4
+1   CoreFoundation                	0x00000001a381d84c __CFStringAppendFormatCore + 8812
+2   CoreFoundation                	0x00000001a381efa8 _CFStringCreateWithFormatAndArgumentsReturningMetadata + 160
+3   WiFiPolicy                    	0x00000001d0895f8c -[WFLogger WFLog:message:] + 192
+4   ???                           	0x000000010692c00c 0 + 4405248012
+5   wifid                         	0x0000000100f58a74 0x100e40000 + 1149556
+6   wifid                         	0x0000000100f58c74 0x100e40000 + 1150068
+</code></pre><p>所以这真的是格式化字符串错误！</p>
+<p>反编译 dyld_shared_cache 中的这个函数 <code>-[WFLogger WFLog:message:]</code>，有 2 处对 <code>CFStringCreateWithFormatAndArguments</code> 的引用:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>v7 <span style="color:#f92672">=</span> j__CFStringCreateWithCString_107(<span style="color:#ae81ff">0LL</span>, a4, <span style="color:#ae81ff">0x8000100u</span>); <span style="color:#75715e">// the format string
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> ( v7 <span style="color:#f92672">||</span> (v7 <span style="color:#f92672">=</span> j__CFStringCreateWithCString_107(<span style="color:#ae81ff">0LL</span>, a4, <span style="color:#ae81ff">0</span>)) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0LL</span> )
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> ( self<span style="color:#f92672">-&gt;</span>_destination <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span> )
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    v8 <span style="color:#f92672">=</span> j__CFStringCreateWithFormatAndArguments_26(<span style="color:#ae81ff">0LL</span>, <span style="color:#ae81ff">0LL</span>, v7, v21);
+</span></span><span style="display:flex;"><span>    v18[<span style="color:#ae81ff">3</span>] <span style="color:#f92672">=</span> (<span style="color:#66d9ef">__int64</span>)v8;
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span> <span style="color:#66d9ef">if</span> ( self<span style="color:#f92672">-&gt;</span>_destination <span style="color:#f92672">!=</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#f92672">!</span>self<span style="color:#f92672">-&gt;</span>_wflRunningOnWatchClassDevice <span style="color:#f92672">||</span> self<span style="color:#f92672">-&gt;</span>_wflEnableDualLoggingOnWatchClassDevice) )
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">*</span>(_QWORD <span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>v16.tm_sec <span style="color:#f92672">=</span> <span style="color:#ae81ff">0LL</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">*</span>(_QWORD <span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>v16.tm_hour <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>v16;
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">*</span>(_QWORD <span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>v16.tm_mon <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x2020000000LL</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">*</span>(_QWORD <span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>v16.tm_wday <span style="color:#f92672">=</span> <span style="color:#ae81ff">0LL</span>;
+</span></span><span style="display:flex;"><span>  v10 <span style="color:#f92672">=</span> j__CFStringCreateWithFormatAndArguments_26(<span style="color:#ae81ff">0LL</span>, <span style="color:#ae81ff">0LL</span>, v7, v21); <span style="color:#75715e">// &lt;-- here
+</span></span></span></code></pre></div><p>用 lldb debug 这个 issue 很麻烦了，因为这个 method 太常见了。因此，使用 frida frida-trace -U wifid -m &lsquo;-[WFLogger WFLog:message:]&rsquo;, 然后使用以下通知脚本：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>  onEnter(log, args, state) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> msg <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">&#39;&#39;</span> <span style="color:#f92672">+</span> args[<span style="color:#ae81ff">3</span>].readUtf8String();
+</span></span><span style="display:flex;"><span>  log(<span style="color:#960050;background-color:#1e0010">`</span><span style="color:#f92672">-</span>[WFLogger WFLog:<span style="color:#960050;background-color:#1e0010">$</span>{args[<span style="color:#ae81ff">2</span>]} message:<span style="color:#960050;background-color:#1e0010">$</span>{msg}]<span style="color:#960050;background-color:#1e0010">`</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (msg.indexOf(<span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">%</span>p<span style="color:#f92672">%</span>s<span style="color:#f92672">%</span>s<span style="color:#f92672">%</span>s<span style="color:#f92672">%</span>s<span style="color:#f92672">%</span>n<span style="color:#960050;background-color:#1e0010">&#39;</span>) <span style="color:#f92672">&gt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (let i <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>      log(args[i], JSON.stringify(Process.findRangeByAddress(args[i])));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    log(<span style="color:#960050;background-color:#1e0010">&#39;</span>called from:<span style="color:#960050;background-color:#1e0010">\</span>n<span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>      Thread.backtrace(this.context, Backtracer.ACCURATE)
+</span></span><span style="display:flex;"><span>      .map(DebugSymbol.fromAddress).join(<span style="color:#e6db74">&#39;\n&#39;</span>) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;\n&#39;</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>},
+</span></span></code></pre></div><p>这是在崩溃之前的日志：</p>
+<pre tabindex="0"><code>17863 ms -[WFLogger WFLog:0x3 message:Dequeuing command type: “%@” pending commands: %ld]
+
+17863 ms -[WFLogger WFLog:0x3 message:{ASSOC+} Attempting Apple80211AssociateAsync to %p%s%s%s%s%n]
+</code></pre><p>根据 backtrace，这就是根本原因：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>v27 <span style="color:#f92672">=</span> sub_1000A25D4(v21);
+</span></span><span style="display:flex;"><span>v28 <span style="color:#f92672">=</span> objc_msgSend(
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>OBJC_CLASS___NSString,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;stringWithFormat:&#34;</span>,
+</span></span><span style="display:flex;"><span>        CFSTR(<span style="color:#e6db74">&#34;Attempting Apple80211AssociateAsync to %@&#34;</span>),
+</span></span><span style="display:flex;"><span>        v27);
+</span></span><span style="display:flex;"><span>v29 <span style="color:#f92672">=</span> objc_msgSend(<span style="color:#f92672">&amp;</span>OBJC_CLASS___NSString, <span style="color:#e6db74">&#34;stringWithFormat:&#34;</span>, CFSTR(<span style="color:#e6db74">&#34;{ %@+} %@&#34;</span>), CFSTR(<span style="color:#e6db74">&#34;ASSOC&#34;</span>), v28);
+</span></span><span style="display:flex;"><span>v30 <span style="color:#f92672">=</span> objc_autoreleasePoolPush();
+</span></span><span style="display:flex;"><span>v31 <span style="color:#f92672">=</span> (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>)qword_100251888;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ( qword_100251888 )
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    v32 <span style="color:#f92672">=</span> objc_msgSend(v29, <span style="color:#e6db74">&#34;UTF8String&#34;</span>);
+</span></span><span style="display:flex;"><span>    objc_msgSend(v31, <span style="color:#e6db74">&#34;WFLog:message:&#34;</span>, <span style="color:#ae81ff">3LL</span>, v32);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>objc_autoreleasePoolPop(v30);
+</span></span></code></pre></div><p>它将 SSID concat 到一个格式字符串，并将其传递给 <code>WFLog:message:</code> 方法，目的地是 3，所以是 <code>CFStringCreateWithFormatAndArguments</code> 的第二个 xref 引发了拒绝服务。</p>
+<p>对于可利用性，目前还没有问题，其余的参数也不像是可以控制的。因此，我不认为这个 bug 是可利用的。毕竟，要触发这个 bug，你需要连接到该 WiFi，其中的 <code>SSID</code> 对受害者是可见的。钓鱼 Wi-Fi 或许更有效。</p>
+<p>This is a version from <a href="https://blog.chichou.me/">Schou</a>.</p>
+
 </main>
 <footer>
     <span>Copyright &copy; SunBK201 Ushiromiya</span>
