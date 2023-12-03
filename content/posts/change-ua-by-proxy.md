@@ -4,6 +4,8 @@ date: 2021-05-30
 draft: false
 ---
 
+[校园网防检测: UA3F - 新一代 UA 修改方法](https://blog.sunbk201.site/posts/ua3f/)
+
 [关于某大学校园网共享上网检测机制的研究与解决方案](https://blog.sunbk201.site/crack-campus-network)
 
 [OpenWrt 编译与防检测部署教程](https://blog.sunbk201.site/posts/openwrt-compile)

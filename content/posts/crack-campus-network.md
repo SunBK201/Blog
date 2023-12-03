@@ -144,9 +144,13 @@ reboot
 
 ### 方案三：使用 UA2F 修改 UA
 
-这可能是最理想的方案，UA2F 可以修改所有端口的数据包，而且性能不错，不过依旧需要编译。 具体参见：[Zxilly/UA2F](https://github.com/Zxilly/UA2F)。
+UA2F 可以修改所有端口的数据包，而且性能不错，不过依旧需要编译。 具体参见：[Zxilly/UA2F](https://github.com/Zxilly/UA2F)。
 
 验证方式：[UA 检测-HTTP](http://ua.233996.xyz/)
+
+### 方案四：UA3F
+
+[校园网防检测: UA3F - 新一代 UA 修改方法](https://blog.sunbk201.site/posts/ua3f/)
 
 ### 方案四：使用代理客户端中的重写功能对 http-header 进行修改
 

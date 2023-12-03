@@ -1101,7 +1101,8 @@ UI：代码如何与人互动是与它的实现应该分开考虑。让硬件的
       <pubDate>Sun, 30 May 2021 00:00:00 +0000</pubDate>
       
       <guid>http://blog.sunbk201.site/posts/change-ua-by-proxy/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://blog.sunbk201.site/crack-campus-network&#34;&gt;关于某大学校园网共享上网检测机制的研究与解决方案&lt;/a&gt;&lt;/p&gt;
+      <description>&lt;p&gt;&lt;a href=&#34;https://blog.sunbk201.site/posts/ua3f/&#34;&gt;校园网防检测: UA3F - 新一代 UA 修改方法&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://blog.sunbk201.site/crack-campus-network&#34;&gt;关于某大学校园网共享上网检测机制的研究与解决方案&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://blog.sunbk201.site/posts/openwrt-compile&#34;&gt;OpenWrt 编译与防检测部署教程&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;阅读过上面两篇文章的同学可以发现，手动编译OpenWrt是一件很痛苦的事。 显然对于一些动手能力不强的同学来说，通过 UA2F 修改UA是比较困难的。而且，UA2F从设计层面上也存在一些问题，例如无法处理网卡分包等情况。&lt;/p&gt;
 &lt;p&gt;因此，我们需要一种更加简单的方案，既能无需编译OpenWrt，又能更好的满足我们的需求。&lt;/p&gt;
@@ -1241,8 +1242,10 @@ Flash Cookie 会记录用户在访问 Flash 网页的时候保留的信息，只
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 重启路由器&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;reboot
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;方案三使用-ua2f-修改-ua&#34;&gt;方案三：使用 UA2F 修改 UA&lt;/h3&gt;
-&lt;p&gt;这可能是最理想的方案，UA2F 可以修改所有端口的数据包，而且性能不错，不过依旧需要编译。 具体参见：&lt;a href=&#34;https://github.com/Zxilly/UA2F&#34;&gt;Zxilly/UA2F&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;UA2F 可以修改所有端口的数据包，而且性能不错，不过依旧需要编译。 具体参见：&lt;a href=&#34;https://github.com/Zxilly/UA2F&#34;&gt;Zxilly/UA2F&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;验证方式：&lt;a href=&#34;http://ua.233996.xyz/&#34;&gt;UA 检测-HTTP&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;方案四ua3f&#34;&gt;方案四：UA3F&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://blog.sunbk201.site/posts/ua3f/&#34;&gt;校园网防检测: UA3F - 新一代 UA 修改方法&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&#34;方案四使用代理客户端中的重写功能对-http-header-进行修改&#34;&gt;方案四：使用代理客户端中的重写功能对 http-header 进行修改&lt;/h3&gt;
 &lt;p&gt;这应该是最容易操作的方法，也可能是有效的方法。&lt;/p&gt;
 &lt;p&gt;以 Quantumult X 为例，只需在重写规则里面加入一条：&lt;/p&gt;
