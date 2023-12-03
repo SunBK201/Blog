@@ -4,7 +4,7 @@ date: 2021-05-30
 draft: false
 ---
 
-[关于某大学校园网共享上网检测机制的研究与解决方案](https://blog.sunbk201.site/crack-campus-network.html)
+[关于某大学校园网共享上网检测机制的研究与解决方案](https://blog.sunbk201.site/crack-campus-network)
 
 [OpenWrt 编译与防检测部署教程](https://blog.sunbk201.site/posts/openwrt-compile)
 
