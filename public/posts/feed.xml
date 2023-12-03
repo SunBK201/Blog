@@ -43,7 +43,7 @@
 &lt;li&gt;UA2F 依赖于 netfilter/iptables 进行流重定向，因此与 Clash 等代理工具存在冲突问题，因此对于依赖于 Clash 等代理工具的用户，不得不采用二级路由的形式已实现 Clash 与 UA2F 的共存。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h1 id=&#34;ua3f-新一代-ua-修改方法&#34;&gt;UA3F: 新一代 UA 修改方法&lt;/h1&gt;
-&lt;p&gt;为了解决上述 UA2F 存在的问题，我提出一种全新的 HTTP User-Agent 修改方法: UA3F&lt;/p&gt;
+&lt;p&gt;为了解决上述 UA2F 存在的问题，我提出一种全新的 HTTP User-Agent 修改方法: &lt;a href=&#34;https://github.com/SunBK201/UA3F&#34;&gt;UA3F&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://sunbk201.oss-cn-beijing.aliyuncs.com/img/ua3f&#34; alt=&#34;UA3F&#34;&gt;&lt;/p&gt;
 &lt;p&gt;由上图所示，UA3F 依赖于 Clash 等基于规则的代理工具，UA3F 本身最为一个 SOCKS5 代理对本机提供服务，借助 Clash，UA3F 能够捕获入站全部流量，由 Clash 向 UA3F 转发的全部潜在的 HTTP 流量，这里值得注意的是，UA3F 可以接受任何基于 TCP 协议的流量，但是只关注于 HTTP，UA3F 会尝试解析 TCP 流并判断当前连接是否承载 HTTP 流量，如果判定非 HTTP 连接，则直接转发，如果判定为 HTTP 连接，则进行 HTTP 流量解析并定位修改 User-Agent 头部。&lt;/p&gt;
 &lt;p&gt;通过上述方式，UA3F 可以做到：&lt;/p&gt;
@@ -83,7 +83,7 @@
 &lt;li&gt;加密代理网络流量通过 Clash 连接外部代理服务器进行代理转发&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h1 id=&#34;结束&#34;&gt;结束&lt;/h1&gt;
-&lt;p&gt;校园网防共享检测的需求对我来说已经消失，但是观察到目前现有方法的限制与问题，我进行了 UA3F 的初步实现，目前 UA3F 的实现处于初级阶段，可能存在一些问题，因此欢迎各位同学进行反馈与指正。&lt;/p&gt;
+&lt;p&gt;校园网防共享检测的需求对我来说已经消失，但是观察到目前现有方法的限制与问题，我进行了 UA3F 的初步实现，目前已经开源: &lt;a href=&#34;https://github.com/SunBK201/UA3F&#34;&gt;https://github.com/SunBK201/UA3F&lt;/a&gt;，UA3F 的实现处于初级阶段，可能存在一些问题，因此欢迎各位同学进行反馈与指正。&lt;/p&gt;
 &lt;p&gt;欢迎加入讨论组进行讨论交流：&lt;a href=&#34;https://t.me/crack_campus_network&#34;&gt;Telegram&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
