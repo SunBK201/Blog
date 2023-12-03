@@ -32,7 +32,7 @@ draft: false
 - UA2F 依赖于 netfilter/iptables 进行流重定向，因此与 Clash 等代理工具存在冲突问题，因此对于依赖于 Clash 等代理工具的用户，不得不采用二级路由的形式已实现 Clash 与 UA2F 的共存。
 
 # UA3F: 新一代 UA 修改方法
-为了解决上述 UA2F 存在的问题，我提出一种全新的 HTTP User-Agent 修改方法: UA3F
+为了解决上述 UA2F 存在的问题，我提出一种全新的 HTTP User-Agent 修改方法: [UA3F](https://github.com/SunBK201/UA3F)
 
 ![UA3F](https://sunbk201.oss-cn-beijing.aliyuncs.com/img/ua3f)
 
@@ -84,6 +84,6 @@ rules:
 - 加密代理网络流量通过 Clash 连接外部代理服务器进行代理转发
 
 # 结束
-校园网防共享检测的需求对我来说已经消失，但是观察到目前现有方法的限制与问题，我进行了 UA3F 的初步实现，目前 UA3F 的实现处于初级阶段，可能存在一些问题，因此欢迎各位同学进行反馈与指正。
+校园网防共享检测的需求对我来说已经消失，但是观察到目前现有方法的限制与问题，我进行了 UA3F 的初步实现，目前已经开源: https://github.com/SunBK201/UA3F，UA3F 的实现处于初级阶段，可能存在一些问题，因此欢迎各位同学进行反馈与指正。
 
 欢迎加入讨论组进行讨论交流：[Telegram](https://t.me/crack_campus_network)
