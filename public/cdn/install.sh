@@ -31,7 +31,7 @@ if [ -f "$ua3f_tar" ]; then
     rm "$ua3f_tar"
 fi
 
-wget https://fastly.jsdelivr.net/gh/SunBK201/UA3F@master/release/$ua3f_tar
+wget https://fastly.jsdelivr.net/gh/SunBK201/UA3F@master/bin/$ua3f_tar
 if [ $? -ne 0 ]; then
     echo "Download UA3F Failed, Please Retry."
     exit 1
