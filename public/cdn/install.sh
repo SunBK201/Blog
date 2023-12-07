@@ -31,7 +31,7 @@ if [ -f "$ua3f_tar" ]; then
     rm "$ua3f_tar"
 fi
 
-wget https://fastly.jsdelivr.net/gh/SunBK201/UA3F@master/bin/$ua3f_tar
+wget https://blog.sunbk201.site/cdn/$ua3f_tar
 if [ $? -ne 0 ]; then
     echo "Download UA3F Failed, Please Retry."
     exit 1
@@ -42,7 +42,7 @@ chmod +x ua3f
 if [ -f "ua3f.service" ]; then
     rm "ua3f.service"
 fi
-wget https://fastly.jsdelivr.net/gh/SunBK201/UA3F@master/ua3f.service
+wget https://blog.sunbk201.site/cdn/ua3f.service
 if [ $? -ne 0 ]; then
     echo "Download ua3f.service Failed, Please Retry."
     exit 1
