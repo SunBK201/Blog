@@ -16,7 +16,7 @@ getcpucore() {
 cd /root
 getcpucore
 
-version=0.0.5
+version=0.1.0
 ua3f_tar=ua3f-$version-$cpucore.tar.gz
 
 if [ -f "ua3f" ]; then
