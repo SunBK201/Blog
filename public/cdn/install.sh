@@ -23,6 +23,7 @@ if [ -f "ua3f" ]; then
     rm "ua3f"
 fi
 
+chmod ugo+w /var/log
 if [ -f "/var/log/ua3f.log" ]; then
     rm "/var/log/ua3f.log"
 fi
