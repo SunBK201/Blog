@@ -1,3 +1,5 @@
 .hugo_build.lock
 resources
 .DS_Store
+api/node_modules
+api/*.json
