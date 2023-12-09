@@ -54,4 +54,5 @@ mv ua3f.service /etc/init.d/ && chmod +x /etc/init.d/ua3f.service
 
 if [ $? -eq 0 ]; then
     echo "Install UA3F Success."
+    echo "Use /etc/init.d/ua3f.service {start|stop|restart} to control UA3F."
 fi
