@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>User-Agent Display via API Request</title>
+    <script>
+        function getUserAgentFromAPI() {
+            // 发送请求到API并获取用户的user-agent
+            fetch('/api/message')
+                .then(response => {
+                    if (response.ok) {
+                        return response.json(); // 如果响应状态码是2xx, 将响应体转换为JSON
+                    }
+                    throw new Error('Network response was not ok.'); // 响应状态码不是2xx时抛出异常
+                })
+                .then(data => {
+                    // 显示在页面上
+                    document.getElementById('userAgent').textContent = data.ua;
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
+        }
+    </script>
+</head>
+
+<body onload="getUserAgentFromAPI()">
+    <h1>Your User-Agent Info from API</h1>
+    <p id="userAgent">Loading...</p>
+</body>
+
+</html>
