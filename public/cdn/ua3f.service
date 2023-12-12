@@ -17,3 +17,7 @@ stop() {
     echo "ua3f is stopping"
     killall ua3f
 }
+
+# https://openwrt.org/docs/guide-developer/procd-init-scripts
+# https://iceway.github.io/2017/04/14/openwrt-study-notes-07-init-scripts.html
+# https://blog.niekun.net/archives/2277.html
