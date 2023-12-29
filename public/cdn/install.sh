@@ -13,6 +13,10 @@ getcpucore() {
     fi
 }
 
+ckcmd() {
+    command -v sh >/dev/null 2>&1 && command -v $1 >/dev/null 2>&1 || type $1 >/dev/null 2>&1
+}
+
 cd /root
 getcpucore
 
@@ -83,6 +87,17 @@ mv controller.lua /usr/lib/lua/luci/controller/ua3f.lua
 
 rm /tmp/luci-modulecache/* >/dev/null 2>&1
 rm /tmp/luci-indexcache* >/dev/null 2>&1
+
+if [ -z "$(id ua3f 2>/dev/null | grep 'root')" ]; then
+    if ckcmd userdel useradd groupmod; then
+        userdel ua3f 2>/dev/null
+        useradd ua3f -u 10201
+        groupmod ua3f -g 10201
+        sed -Ei s/10201:10201/0:10201/g /etc/passwd
+    else
+        grep -qw ua3f /etc/passwd || echo "ua3f:x:0:10201:::" >>/etc/passwd
+    fi
+fi
 
 if [ $? -eq 0 ]; then
     echo "Install UA3F Success."
