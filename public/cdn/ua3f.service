@@ -5,7 +5,7 @@ USE_PROCD=1
 START=99
 
 NAME="ua3f"
-PROG="/root/$NAME"
+PROG="/usr/bin/$NAME"
 
 start_service() {
     config_load "$NAME"
