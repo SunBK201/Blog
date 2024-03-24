@@ -61,6 +61,9 @@ chmod +x /usr/bin/ua3f
 if [ -f "/etc/init.d/ua3f.service" ]; then
     rm "/etc/init.d/ua3f.service"
 fi
+if [ -f "/etc/init.d/ua3f" ]; then
+    rm "/etc/init.d/ua3f"
+fi
 wget https://blog.sunbk201.site/cdn/ua3f.service
 if [ $? -ne 0 ]; then
     echo "Download ua3f.service Failed, Please Retry."

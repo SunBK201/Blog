@@ -51,7 +51,7 @@ log.rows = 30
 
 local apply = luci.http.formvalue("cbi.apply")
 if apply then
-    io.popen("/etc/init.d/ua3f.service restart")
+    io.popen("/etc/init.d/ua3f restart")
 end
 
 return ua3f
