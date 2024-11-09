@@ -36,6 +36,10 @@ ua = main:taboption("general", Value, "ua", "User-Agent")
 ua.placeholder = "FFF"
 uaRegexPattern = main:taboption("general", Value, "ua_regex", "User-Agent Regex Pattern")
 uaRegexPattern.placeholder = "(iPhone|iPad|Android|Macintosh|Windows|Linux)"
+uaRegexPattern.description = "Regular expression pattern for matching User-Agent"
+partialRepalce = main:option(Flag, "partial_replace", "Partial Replace")
+partialRepalce.description = "Replace only the matched part of the User-Agent"
+partialRepalce.default = "0"
 log_level = main:taboption("general", ListValue, "log_level", "Log Level")
 log_level:value("debug")
 log_level:value("info")
