@@ -56,12 +56,12 @@ uaRegexPattern.placeholder = "(iPhone|iPad|Android|Macintosh|Windows|Linux|Apple
 uaRegexPattern.description = "Regular expression pattern for matching User-Agent"
 
 partialRepalce = main:taboption("general", Flag, "partial_replace", "Partial Replace")
-partialRepalce.description = "Replace only the matched part of the User-Agent"
+partialRepalce.description = "Replace only the matched part of the User-Agent, only works when User-Agent Regex Pattern is not empty"
 partialRepalce.default = "0"
 
 local apply = luci.http.formvalue("cbi.apply")
-if apply then
-    io.popen("/etc/init.d/ua3f restart")
-end
+-- if apply then
+--     io.popen("/etc/init.d/ua3f restart")
+-- end
 
 return ua3f
