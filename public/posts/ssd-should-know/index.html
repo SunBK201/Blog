@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html><head>
+<html><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="UTF-8">
     <title>SunBK201</title>
     <meta name="author" content="SunBK201">
@@ -52,125 +52,125 @@
 <p>然而，更新页面就不那么容易了。如果只是为了就地覆盖一个页面而擦除整个区块，那就太浪费了。因此，固态硬盘通过将新版本的页面写到一个新的位置来执行页面更新。这意味着逻辑和物理页面地址是解耦的。存储在 SSD 上的映射表将逻辑（软件）地址转换为物理（闪存）位置。这个组件也被称为 Flash Translation Layer（FTL）。</p>
 <p>例如，让我们假设我们有一个 SSD，有 3 个擦除块，每个有 4 个页面。对 P1, P2, P0, P3, P5, P1 页的一连串写入可能会导致以下物理 SSD 状态：</p>
 <table>
-<thead>
-<tr>
-<th style="text-align:center"></th>
-<th style="text-align:center"></th>
-<th style="text-align:center"></th>
-<th style="text-align:center"></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Block 0</td>
-<td style="text-align:center">P1 (old)</td>
-<td style="text-align:center">P2</td>
-<td style="text-align:center">P0</td>
-<td style="text-align:center">P3</td>
-</tr>
-<tr>
-<td style="text-align:center">Block 1</td>
-<td style="text-align:center">P5</td>
-<td style="text-align:center">P1</td>
-<td style="text-align:center">→</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">Block 2</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: center"></th>
+          <th style="text-align: center"></th>
+          <th style="text-align: center"></th>
+          <th style="text-align: center"></th>
+          <th style="text-align: left"></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">Block 0</td>
+          <td style="text-align: center">P1 (old)</td>
+          <td style="text-align: center">P2</td>
+          <td style="text-align: center">P0</td>
+          <td style="text-align: center">P3</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">Block 1</td>
+          <td style="text-align: center">P5</td>
+          <td style="text-align: center">P1</td>
+          <td style="text-align: center">→</td>
+          <td style="text-align: center"></td>
+      </tr>
+      <tr>
+          <td style="text-align: center">Block 2</td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"></td>
+      </tr>
+  </tbody>
 </table>
 <p>这时，我们已经没有空闲的擦除块了（尽管从逻辑上来说，应该还有空间）。在写入另一个页面之前，SSD 首先要擦除一个块。在这个例子中，对于垃圾回收器来说，最好是擦除第 0 块，因为只有其中的一个页面还在使用。在擦除第0块后，我们为 3 个写页腾出了空间：</p>
 <table>
-<thead>
-<tr>
-<th style="text-align:center"></th>
-<th style="text-align:center"></th>
-<th style="text-align:center"></th>
-<th style="text-align:center"></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Block 0</td>
-<td style="text-align:center">P1 (old)</td>
-<td style="text-align:center">P2 (old)</td>
-<td style="text-align:center">P0</td>
-<td style="text-align:center">P3 (old)</td>
-</tr>
-<tr>
-<td style="text-align:center">Block 1</td>
-<td style="text-align:center">P5</td>
-<td style="text-align:center">P1 (old)</td>
-<td style="text-align:center">P3</td>
-<td style="text-align:center">P4</td>
-</tr>
-<tr>
-<td style="text-align:center">Block 2</td>
-<td style="text-align:center">P7</td>
-<td style="text-align:center">P1</td>
-<td style="text-align:center">P6</td>
-<td style="text-align:center">P2</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: center"></th>
+          <th style="text-align: center"></th>
+          <th style="text-align: center"></th>
+          <th style="text-align: center"></th>
+          <th style="text-align: left"></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">Block 0</td>
+          <td style="text-align: center">P1 (old)</td>
+          <td style="text-align: center">P2 (old)</td>
+          <td style="text-align: center">P0</td>
+          <td style="text-align: center">P3 (old)</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">Block 1</td>
+          <td style="text-align: center">P5</td>
+          <td style="text-align: center">P1 (old)</td>
+          <td style="text-align: center">P3</td>
+          <td style="text-align: center">P4</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">Block 2</td>
+          <td style="text-align: center">P7</td>
+          <td style="text-align: center">P1</td>
+          <td style="text-align: center">P6</td>
+          <td style="text-align: center">P2</td>
+      </tr>
+  </tbody>
 </table>
 <h1 id="写入放大与超额配置">写入放大与超额配置</h1>
 <p>为了垃圾回收 block 0，我们不得不物理地移动 P0 页，尽管在逻辑上该页没有发生什么。换句话说，对于闪存 SSD 来说，物理（闪存）写入的数量通常高于逻辑（软件）写入的数量。两者之间的比例被称为写入放大（WA）。在我们的例子中，为了给 0 区块的 3 个新页面腾出空间，我们不得不移动 1 个页面。因此，我们有 4 个物理写，3 个逻辑写，也就是说，写放大率为 1.33。</p>
 <p>高写入放大率会降低性能，并减少闪存的使用寿命。写入放大率有多大，取决于访问模式和固态硬盘的满度。大的连续写入有低的写入放大率，而随机写入是最糟糕的情况。</p>
 <p>让我们假设我们的 SSD 被填充到 50%，我们进行随机写入。在稳定状态下，无论我们在哪里擦除一个区块，该区块的大约一半的页面仍然在使用，并且平均要被复制。因此，50% 的填充系数的写入放大率是 2。一般来说，填充系数 f 的最坏情况下的写入放大率是 1/(1-f)。</p>
 <table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>f</td>
-<td>0.1</td>
-<td>0.2</td>
-<td>0.3</td>
-<td>0.4</td>
-<td>0.5</td>
-<td>0.6</td>
-<td>0.7</td>
-<td>0.8</td>
-<td>0.9</td>
-<td>0.95</td>
-<td>0.99</td>
-</tr>
-<tr>
-<td>WA</td>
-<td>1.11</td>
-<td>1.25</td>
-<td>1.43</td>
-<td>1.67</td>
-<td>2.00</td>
-<td>2.50</td>
-<td>3.33</td>
-<td>5</td>
-<td>10</td>
-<td>20</td>
-<td>100</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">f</td>
+          <td style="text-align: left">0.1</td>
+          <td style="text-align: left">0.2</td>
+          <td style="text-align: left">0.3</td>
+          <td style="text-align: left">0.4</td>
+          <td style="text-align: left">0.5</td>
+          <td style="text-align: left">0.6</td>
+          <td style="text-align: left">0.7</td>
+          <td style="text-align: left">0.8</td>
+          <td style="text-align: left">0.9</td>
+          <td style="text-align: left">0.95</td>
+          <td style="text-align: left">0.99</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">WA</td>
+          <td style="text-align: left">1.11</td>
+          <td style="text-align: left">1.25</td>
+          <td style="text-align: left">1.43</td>
+          <td style="text-align: left">1.67</td>
+          <td style="text-align: left">2.00</td>
+          <td style="text-align: left">2.50</td>
+          <td style="text-align: left">3.33</td>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">10</td>
+          <td style="text-align: left">20</td>
+          <td style="text-align: left">100</td>
+      </tr>
+  </tbody>
 </table>
 <p>因为在填充系数接近 1 的情况下，写入放大率会变得不合理地高，大多数固态硬盘都有隐藏的备用容量。这种超额配置通常为总容量的 10-20%。当然，通过创建一个空的分区并永远不向其写入，也很容易增加更多的超额配置。</p>
 <h1 id="总结">总结</h1>
