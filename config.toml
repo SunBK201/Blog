@@ -1,6 +1,6 @@
 baseURL = 'http://blog.sunbk201.site/'
 languageCode = 'zh-cn'
-title = 'SunBK201_Blog'
+title = "SunBK201's Blog"
 
 [outputFormats]
   [outputFormats.RSS]
