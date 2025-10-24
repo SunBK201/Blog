@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<html><head>
     <meta charset="UTF-8">
     <title>SunBK201's Blog</title>
     <meta name="author" content="SunBK201">
@@ -39,8 +39,7 @@
     </header>
     <p>数天前，Twitter 上的<a href="https://twitter.com/vm_call/status/1405937492642123782">一条推文</a>爆出了一个iOS Wi-Fi 的 BUG：</p>
 <blockquote>
-<p>@vm_call: After joining my personal WiFi with the SSID “%p%s%s%s%s%n”, my iPhone permanently disabled it’s WiFi functionality. Neither rebooting nor changing SSID fixes it :~)</p>
-</blockquote>
+<p>@vm_call: After joining my personal WiFi with the SSID “%p%s%s%s%s%n”, my iPhone permanently disabled it’s WiFi functionality. Neither rebooting nor changing SSID fixes it :~)</p></blockquote>
 <p><img src="https://sunbk201.oss-cn-beijing.aliyuncs.com/img/20210621105740.png" alt=""></p>
 <p>看起来这是一个格式化字符串的错误，现在这种 BUG 已经很少见了。我用相同的 SSID 设置了一个热点，用我的测试设备尝试加入，wifid 很快就崩掉了。</p>
 <p>以下是崩溃日志 <code>wifid-2021-06-20-xxxxxx.ips</code>:</p>

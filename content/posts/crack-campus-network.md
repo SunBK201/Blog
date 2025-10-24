@@ -152,7 +152,13 @@ UA2F 可以修改所有端口的数据包，而且性能不错，不过依旧需
 
 [校园网防检测: UA3F - 新一代 UA 修改方法](https://blog.sunbk201.site/posts/ua3f/)
 
-### 方案四：使用代理客户端中的重写功能对 http-header 进行修改
+[UA3F Github](https://github.com/SunBK201/UA3F)
+
+{{< twopics "https://sunbk201.oss-cn-beijing.aliyuncs.com/img/ua3f-luci" "https://sunbk201.oss-cn-beijing.aliyuncs.com/img/ua3f-statistics" >}}
+
+![](https://sunbk201.oss-cn-beijing.aliyuncs.com/img/ua3f)
+
+### 方案五：使用代理客户端中的重写功能对 http-header 进行修改
 
 这应该是最容易操作的方法，也可能是有效的方法。
 
