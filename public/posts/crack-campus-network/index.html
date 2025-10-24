@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<html><head>
     <meta charset="UTF-8">
     <title>SunBK201's Blog</title>
     <meta name="author" content="SunBK201">
@@ -61,8 +61,7 @@
 <p>下面我会对这些技术的实现原理作出进一步说明。</p>
 <h2 id="基于-ipv4-数据包包头内的-ttl-字段的检测">基于 IPv4 数据包包头内的 TTL 字段的检测</h2>
 <blockquote>
-<p>存活时间（Time To Live，TTL），指一个数据包在经过一个路由器时，可传递的最长距离（跃点数）。 每当数据包经过一个路由器时，其存活次数就会被减一。当其存活次数为0时，路由器便会取消该数据包转发，IP网络的话，会向原数据包的发出者发送一个ICMP TTL数据包以告知跃点数超限。其设计目的是防止数据包因不正确的路由表等原因造成的无限循环而无法送达及耗尽网络资源。</p>
-</blockquote>
+<p>存活时间（Time To Live，TTL），指一个数据包在经过一个路由器时，可传递的最长距离（跃点数）。 每当数据包经过一个路由器时，其存活次数就会被减一。当其存活次数为0时，路由器便会取消该数据包转发，IP网络的话，会向原数据包的发出者发送一个ICMP TTL数据包以告知跃点数超限。其设计目的是防止数据包因不正确的路由表等原因造成的无限循环而无法送达及耗尽网络资源。</p></blockquote>
 <p>这是一个比较有效且合理的检测技术，IPv4数据包下存在 TTL（Time To Live）这一字段，数据包每经过一个路由器（即经过一个网段），该TTL值就会减一。</p>
 <p>不同的操作系统的默认 TTL 值是不同的，Windows 是 128， macOS/iOS、Linux 是 64。</p>
 <p>因此如果我们自己接入路由器到校园网，我们的通过路由器的数据包会变为 127 或 63，一旦校园网抓包检测到这种数据包TTL不是128或64，就会判定为用户接入了路由器。</p>
@@ -141,7 +140,16 @@ Flash Cookie 会记录用户在访问 Flash 网页的时候保留的信息，只
 <p>验证方式：<a href="http://ua.233996.xyz/">UA 检测-HTTP</a></p>
 <h3 id="方案四ua3f">方案四：UA3F</h3>
 <p><a href="https://blog.sunbk201.site/posts/ua3f/">校园网防检测: UA3F - 新一代 UA 修改方法</a></p>
-<h3 id="方案四使用代理客户端中的重写功能对-http-header-进行修改">方案四：使用代理客户端中的重写功能对 http-header 进行修改</h3>
+<p><a href="https://github.com/SunBK201/UA3F">UA3F Github</a></p>
+<table>
+  <tr>
+    <td><img src="https://sunbk201.oss-cn-beijing.aliyuncs.com/img/ua3f-luci" alt="Left Image"></td>
+    <td><img src="https://sunbk201.oss-cn-beijing.aliyuncs.com/img/ua3f-statistics" alt="Right Image"></td>
+  </tr>
+</table>
+
+<p><img src="https://sunbk201.oss-cn-beijing.aliyuncs.com/img/ua3f" alt=""></p>
+<h3 id="方案五使用代理客户端中的重写功能对-http-header-进行修改">方案五：使用代理客户端中的重写功能对 http-header 进行修改</h3>
 <p>这应该是最容易操作的方法，也可能是有效的方法。</p>
 <p>以 Quantumult X 为例，只需在重写规则里面加入一条：</p>
 <pre tabindex="0"><code>http:// url request-header (\r\n)User-[A|a]gent:.+(\r\n) request-header $1User-Agent: $2

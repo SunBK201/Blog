@@ -2,71 +2,71 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/posts/</loc>
+    <loc>http://blog.sunbk201.site/posts/</loc>
     <lastmod>2023-12-03T03:37:08+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/</loc>
+    <loc>http://blog.sunbk201.site/</loc>
     <lastmod>2023-12-03T03:37:08+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/ua3f/</loc>
+    <loc>http://blog.sunbk201.site/posts/ua3f/</loc>
     <lastmod>2023-12-03T03:37:08+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/cli-guidelines-zh/</loc>
+    <loc>http://blog.sunbk201.site/posts/cli-guidelines-zh/</loc>
     <lastmod>2023-01-15T00:28:23+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/about/</loc>
+    <loc>http://blog.sunbk201.site/about/</loc>
     <lastmod>2023-01-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/regex-lookaround/</loc>
+    <loc>http://blog.sunbk201.site/posts/regex-lookaround/</loc>
     <lastmod>2021-12-31T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/gentle-introduction-multithreading/</loc>
+    <loc>http://blog.sunbk201.site/posts/gentle-introduction-multithreading/</loc>
     <lastmod>2021-08-26T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/why-is-ethernet-mtu-1500/</loc>
+    <loc>http://blog.sunbk201.site/posts/why-is-ethernet-mtu-1500/</loc>
     <lastmod>2021-07-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/ssd-should-know/</loc>
+    <loc>http://blog.sunbk201.site/posts/ssd-should-know/</loc>
     <lastmod>2021-06-23T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/quick-analysis-wifid/</loc>
+    <loc>http://blog.sunbk201.site/posts/quick-analysis-wifid/</loc>
     <lastmod>2021-06-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/when-is-main-not-a-function/</loc>
+    <loc>http://blog.sunbk201.site/posts/when-is-main-not-a-function/</loc>
     <lastmod>2021-06-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/string-hashing/</loc>
+    <loc>http://blog.sunbk201.site/posts/string-hashing/</loc>
     <lastmod>2021-06-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/dev-null-bit-bucket/</loc>
+    <loc>http://blog.sunbk201.site/posts/dev-null-bit-bucket/</loc>
     <lastmod>2021-06-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/3-tribes-of-programming/</loc>
+    <loc>http://blog.sunbk201.site/posts/3-tribes-of-programming/</loc>
     <lastmod>2021-06-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/why-oo-sucks/</loc>
+    <loc>http://blog.sunbk201.site/posts/why-oo-sucks/</loc>
     <lastmod>2021-06-03T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/shadowsocks-libev-deploy/</loc>
+    <loc>http://blog.sunbk201.site/posts/shadowsocks-libev-deploy/</loc>
     <lastmod>2021-06-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/shellclash-deploy/</loc>
+    <loc>http://blog.sunbk201.site/posts/shellclash-deploy/</loc>
     <lastmod>2021-06-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/openwrt-compile/</loc>
+    <loc>http://blog.sunbk201.site/posts/openwrt-compile/</loc>
     <lastmod>2021-06-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/change-ua-by-proxy/</loc>
+    <loc>http://blog.sunbk201.site/posts/change-ua-by-proxy/</loc>
     <lastmod>2021-05-30T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/crack-campus-network/</loc>
+    <loc>http://blog.sunbk201.site/posts/crack-campus-network/</loc>
     <lastmod>2021-03-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/hello-world/</loc>
+    <loc>http://blog.sunbk201.site/posts/hello-world/</loc>
     <lastmod>2020-03-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>http://blog.sunbk201.site/categories/</loc>
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>http://blog.sunbk201.site/tags/</loc>
   </url>
 </urlset>

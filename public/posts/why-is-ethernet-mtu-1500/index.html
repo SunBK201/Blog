@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<html><head>
     <meta charset="UTF-8">
     <title>SunBK201's Blog</title>
     <meta name="author" content="SunBK201">
@@ -53,8 +53,7 @@
 <p>以太网的第一次重大突破是以 10BASE-2（廉价网）和 10BASE-5（稠密网）的形式出现的，这些数字大致表明一个网段可以跨越多少百米。</p>
 <p>由于当时有许多竞争性协议，而且存在硬件限制，以太网原作者在一封电子邮件中指出，数据包缓冲区的内存要求在神奇的 1500 数字上有一些作用。</p>
 <blockquote>
-<p>回过头来看，一个较长的最大值可能会更好，但如果它在早期增加了网卡的成本，可能会阻止以太网的广泛接受。</p>
-</blockquote>
+<p>回过头来看，一个较长的最大值可能会更好，但如果它在早期增加了网卡的成本，可能会阻止以太网的广泛接受。</p></blockquote>
 <p>然而，这并不是故事的全部。1980年发表的 <a href="https://blog.benjojo.co.uk/asset/4Up5QvCjAa">Ethernet: Distributed Packet Switching for Local Computer Networks</a> 一文是对网络上较大数据包的效率成本分析的早期说明。这在当时对以太网特别重要，因为以太网网络将在所有系统之间共享相同的同轴电缆，或者以太网集线器，一次只允许一个数据包在以太网段的所有成员之间传输。</p>
 <p>我们必须选择一个数字，使得数据在这些共享（有时是繁忙的）网段上的传输延迟不会太高，但这也意味着数据包头的开销不会太大。(见上面链接的论文第 15-16 页的一些表格)</p>
 <p>看来，当时的工程师们最多只挑选了 1500 字节，或大约 12000 比特作为最佳&quot;安全&quot;值。</p>

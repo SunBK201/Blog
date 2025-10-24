@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>SunBK201&#39;s Blog</title>
-    <link>http://localhost:1313/</link>
+    <link>http://blog.sunbk201.site/</link>
     <description>Recent content on SunBK201&#39;s Blog feedId:80934128438220800+userId:41428277522420736</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 03 Dec 2023 03:37:08 +0800</lastBuildDate><atom:link href="http://localhost:1313/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 03 Dec 2023 03:37:08 +0800</lastBuildDate><atom:link href="http://blog.sunbk201.site/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>校园网防检测: UA3F - 新一代 UA 修改方法</title>
-      <link>http://localhost:1313/posts/ua3f/</link>
+      <link>http://blog.sunbk201.site/posts/ua3f/</link>
       <pubDate>Sun, 03 Dec 2023 03:37:08 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/ua3f/</guid>
+      <guid>http://blog.sunbk201.site/posts/ua3f/</guid>
       <description>&lt;h1 id=&#34;前言&#34;&gt;前言&lt;/h1&gt;
 &lt;p&gt;目前众多高校依旧对校园网络共享行为进行严格限制，具体表现为：&lt;/p&gt;
 &lt;ul&gt;
@@ -90,20 +90,20 @@
     
     <item>
       <title>命令行界面设计指南</title>
-      <link>http://localhost:1313/posts/cli-guidelines-zh/</link>
+      <link>http://blog.sunbk201.site/posts/cli-guidelines-zh/</link>
       <pubDate>Sun, 15 Jan 2023 00:28:23 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/cli-guidelines-zh/</guid>
+      <guid>http://blog.sunbk201.site/posts/cli-guidelines-zh/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://sunbk201.github.io/cli-guidelines-zh/&#34;&gt;https://sunbk201.github.io/cli-guidelines-zh/&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>About</title>
-      <link>http://localhost:1313/about/</link>
+      <link>http://blog.sunbk201.site/about/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/about/</guid>
+      <guid>http://blog.sunbk201.site/about/</guid>
       <description>&lt;p&gt;hi guys!&lt;/p&gt;
 &lt;p&gt;Contact Me: &lt;a href=&#34;mailto:me@sunbk201.com&#34;&gt;me@sunbk201.com&lt;/a&gt;&lt;/p&gt;
 &lt;ul&gt;
@@ -116,10 +116,10 @@
     
     <item>
       <title>正则表达式高阶使用：负向零宽度断言</title>
-      <link>http://localhost:1313/posts/regex-lookaround/</link>
+      <link>http://blog.sunbk201.site/posts/regex-lookaround/</link>
       <pubDate>Fri, 31 Dec 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/regex-lookaround/</guid>
+      <guid>http://blog.sunbk201.site/posts/regex-lookaround/</guid>
       <description>&lt;p&gt;当我在写 Surge 的规则配置文件时，我发现我需要通过正则表达式使用 policy-regex-filter 进行过滤，具体的需求是：排除包含指定字符串的节点，过滤获得没有包含指定字符串的节点。&lt;/p&gt;
 &lt;p&gt;这是个难题，平时使用正则表达式主要是“匹配”的思想，这次要使用“否定排除”的思想。&lt;/p&gt;
 &lt;p&gt;零宽度断言 (zero-width-assertions) 解决了这个问题。 我们这里讨论的是否定的断言。 零宽度断言所匹配到的内容并不会保存到结果中去。&lt;/p&gt;
@@ -142,10 +142,10 @@ index    0      1      2      3      4      5      6      7
     
     <item>
       <title>多线程简介：走进并发世界</title>
-      <link>http://localhost:1313/posts/gentle-introduction-multithreading/</link>
+      <link>http://blog.sunbk201.site/posts/gentle-introduction-multithreading/</link>
       <pubDate>Thu, 26 Aug 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/gentle-introduction-multithreading/</guid>
+      <guid>http://blog.sunbk201.site/posts/gentle-introduction-multithreading/</guid>
       <description>&lt;p&gt;现代计算机有能力在同一时间进行多种操作。在硬件进步和愈发智能的操作系统的支持下，这一特性能够使我们的程序运行得更快，无论是在执行速度还是响应速度方面。&lt;/p&gt;
 &lt;p&gt;利用多线程的优势编写软件是非常有趣的，但是也非常困难：它需要你了解你的计算机的内部。多线程是操作系统提供的一种充满魔力的工具，在这一篇我们将尝试掀开多线程的面纱，让我们开始吧！&lt;/p&gt;
 &lt;h1 id=&#34;进程和线程命名&#34;&gt;进程和线程：命名&lt;/h1&gt;
@@ -211,10 +211,10 @@ reader_thread.start()
     
     <item>
       <title>1500 字节是如何成为互联网的 MTU 的？</title>
-      <link>http://localhost:1313/posts/why-is-ethernet-mtu-1500/</link>
+      <link>http://blog.sunbk201.site/posts/why-is-ethernet-mtu-1500/</link>
       <pubDate>Thu, 15 Jul 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/why-is-ethernet-mtu-1500/</guid>
+      <guid>http://blog.sunbk201.site/posts/why-is-ethernet-mtu-1500/</guid>
       <description>&lt;p&gt;以太网无处不在，数以万计的硬件供应商都在讨论和实现它。然而，几乎每个以太网链路都都有一个共同的数字，那就是 MTU：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ ip l
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1: lo: &amp;lt;LOOPBACK,UP,LOWER_UP&amp;gt; mtu &lt;span style=&#34;color:#ae81ff&#34;&gt;65536&lt;/span&gt; state UNKNOWN
@@ -231,8 +231,7 @@ reader_thread.start()
 &lt;p&gt;以太网的第一次重大突破是以 10BASE-2（廉价网）和 10BASE-5（稠密网）的形式出现的，这些数字大致表明一个网段可以跨越多少百米。&lt;/p&gt;
 &lt;p&gt;由于当时有许多竞争性协议，而且存在硬件限制，以太网原作者在一封电子邮件中指出，数据包缓冲区的内存要求在神奇的 1500 数字上有一些作用。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;回过头来看，一个较长的最大值可能会更好，但如果它在早期增加了网卡的成本，可能会阻止以太网的广泛接受。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;回过头来看，一个较长的最大值可能会更好，但如果它在早期增加了网卡的成本，可能会阻止以太网的广泛接受。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;然而，这并不是故事的全部。1980年发表的 &lt;a href=&#34;https://blog.benjojo.co.uk/asset/4Up5QvCjAa&#34;&gt;Ethernet: Distributed Packet Switching for Local Computer Networks&lt;/a&gt; 一文是对网络上较大数据包的效率成本分析的早期说明。这在当时对以太网特别重要，因为以太网网络将在所有系统之间共享相同的同轴电缆，或者以太网集线器，一次只允许一个数据包在以太网段的所有成员之间传输。&lt;/p&gt;
 &lt;p&gt;我们必须选择一个数字，使得数据在这些共享（有时是繁忙的）网段上的传输延迟不会太高，但这也意味着数据包头的开销不会太大。(见上面链接的论文第 15-16 页的一些表格)&lt;/p&gt;
 &lt;p&gt;看来，当时的工程师们最多只挑选了 1500 字节，或大约 12000 比特作为最佳&amp;quot;安全&amp;quot;值。&lt;/p&gt;
@@ -254,10 +253,10 @@ reader_thread.start()
     
     <item>
       <title>关于 SSD，每一位开发者都应该知道的一些知识</title>
-      <link>http://localhost:1313/posts/ssd-should-know/</link>
+      <link>http://blog.sunbk201.site/posts/ssd-should-know/</link>
       <pubDate>Wed, 23 Jun 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/ssd-should-know/</guid>
+      <guid>http://blog.sunbk201.site/posts/ssd-should-know/</guid>
       <description>&lt;p&gt;基于闪存的 Solid-State Drives (SSDs) 固态硬盘 已经在很大程度上取代了磁盘，成为标准的存储介质。从程序员的角度来看，固态硬盘和磁盘看起来非常相似：两者都是持久性的，通过文件系统和系统调用实现基于页面（如 4KB）的访问，并且具有大容量。&lt;/p&gt;
 &lt;p&gt;然而，也有一些重要的区别，如果想达到最佳的 SSD 性能，这些区别就变得很重要。周所周知，SSD 更加复杂，如果只是简单地认为它们是快速的磁盘，那么它们的性能表现会显得相当难以理解。这篇文章的目的是让大家了解为什么 SSD 会有这样的性能表现，这有助于构建能够充分利用它们的软件。请注意，我讨论的是 NAND 闪存，而不是英特尔 Optane 内存，后者具有不同的特性）。&lt;/p&gt;
 &lt;h1 id=&#34;驱动器drives不是磁盘disks&#34;&gt;驱动器（Drives）不是磁盘（Disks）&lt;/h1&gt;
@@ -279,7 +278,7 @@ reader_thread.start()
           &lt;th style=&#34;text-align: center&#34;&gt;&lt;/th&gt;
           &lt;th style=&#34;text-align: center&#34;&gt;&lt;/th&gt;
           &lt;th style=&#34;text-align: center&#34;&gt;&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;&lt;/th&gt;
+          &lt;th&gt;&lt;/th&gt;
       &lt;/tr&gt;
   &lt;/thead&gt;
   &lt;tbody&gt;
@@ -314,7 +313,7 @@ reader_thread.start()
           &lt;th style=&#34;text-align: center&#34;&gt;&lt;/th&gt;
           &lt;th style=&#34;text-align: center&#34;&gt;&lt;/th&gt;
           &lt;th style=&#34;text-align: center&#34;&gt;&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;&lt;/th&gt;
+          &lt;th&gt;&lt;/th&gt;
       &lt;/tr&gt;
   &lt;/thead&gt;
   &lt;tbody&gt;
@@ -348,48 +347,48 @@ reader_thread.start()
 &lt;table&gt;
   &lt;thead&gt;
       &lt;tr&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;&lt;/th&gt;
+          &lt;th&gt;&lt;/th&gt;
+          &lt;th&gt;&lt;/th&gt;
+          &lt;th&gt;&lt;/th&gt;
+          &lt;th&gt;&lt;/th&gt;
+          &lt;th&gt;&lt;/th&gt;
+          &lt;th&gt;&lt;/th&gt;
+          &lt;th&gt;&lt;/th&gt;
+          &lt;th&gt;&lt;/th&gt;
+          &lt;th&gt;&lt;/th&gt;
+          &lt;th&gt;&lt;/th&gt;
+          &lt;th&gt;&lt;/th&gt;
+          &lt;th&gt;&lt;/th&gt;
       &lt;/tr&gt;
   &lt;/thead&gt;
   &lt;tbody&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;f&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;0.1&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;0.2&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;0.3&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;0.4&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;0.5&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;0.6&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;0.7&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;0.8&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;0.9&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;0.95&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;0.99&lt;/td&gt;
+          &lt;td&gt;f&lt;/td&gt;
+          &lt;td&gt;0.1&lt;/td&gt;
+          &lt;td&gt;0.2&lt;/td&gt;
+          &lt;td&gt;0.3&lt;/td&gt;
+          &lt;td&gt;0.4&lt;/td&gt;
+          &lt;td&gt;0.5&lt;/td&gt;
+          &lt;td&gt;0.6&lt;/td&gt;
+          &lt;td&gt;0.7&lt;/td&gt;
+          &lt;td&gt;0.8&lt;/td&gt;
+          &lt;td&gt;0.9&lt;/td&gt;
+          &lt;td&gt;0.95&lt;/td&gt;
+          &lt;td&gt;0.99&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;WA&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;1.11&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;1.25&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;1.43&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;1.67&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;2.00&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;2.50&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;3.33&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;5&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;10&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;20&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;100&lt;/td&gt;
+          &lt;td&gt;WA&lt;/td&gt;
+          &lt;td&gt;1.11&lt;/td&gt;
+          &lt;td&gt;1.25&lt;/td&gt;
+          &lt;td&gt;1.43&lt;/td&gt;
+          &lt;td&gt;1.67&lt;/td&gt;
+          &lt;td&gt;2.00&lt;/td&gt;
+          &lt;td&gt;2.50&lt;/td&gt;
+          &lt;td&gt;3.33&lt;/td&gt;
+          &lt;td&gt;5&lt;/td&gt;
+          &lt;td&gt;10&lt;/td&gt;
+          &lt;td&gt;20&lt;/td&gt;
+          &lt;td&gt;100&lt;/td&gt;
       &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
@@ -402,14 +401,13 @@ reader_thread.start()
     
     <item>
       <title>关于 iOS SSID 格式字符串 BUG 的快速分析</title>
-      <link>http://localhost:1313/posts/quick-analysis-wifid/</link>
+      <link>http://blog.sunbk201.site/posts/quick-analysis-wifid/</link>
       <pubDate>Mon, 21 Jun 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/quick-analysis-wifid/</guid>
+      <guid>http://blog.sunbk201.site/posts/quick-analysis-wifid/</guid>
       <description>&lt;p&gt;数天前，Twitter 上的&lt;a href=&#34;https://twitter.com/vm_call/status/1405937492642123782&#34;&gt;一条推文&lt;/a&gt;爆出了一个iOS Wi-Fi 的 BUG：&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;@vm_call: After joining my personal WiFi with the SSID “%p%s%s%s%s%n”, my iPhone permanently disabled it’s WiFi functionality. Neither rebooting nor changing SSID fixes it :~)&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;@vm_call: After joining my personal WiFi with the SSID “%p%s%s%s%s%n”, my iPhone permanently disabled it’s WiFi functionality. Neither rebooting nor changing SSID fixes it :~)&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&#34;https://sunbk201.oss-cn-beijing.aliyuncs.com/img/20210621105740.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;看起来这是一个格式化字符串的错误，现在这种 BUG 已经很少见了。我用相同的 SSID 设置了一个热点，用我的测试设备尝试加入，wifid 很快就崩掉了。&lt;/p&gt;
 &lt;p&gt;以下是崩溃日志 &lt;code&gt;wifid-2021-06-20-xxxxxx.ips&lt;/code&gt;:&lt;/p&gt;
@@ -482,10 +480,10 @@ Thread 2 Crashed:
     
     <item>
       <title>main 通常是个函数，那么什么时候不是呢？</title>
-      <link>http://localhost:1313/posts/when-is-main-not-a-function/</link>
+      <link>http://blog.sunbk201.site/posts/when-is-main-not-a-function/</link>
       <pubDate>Fri, 18 Jun 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/when-is-main-not-a-function/</guid>
+      <guid>http://blog.sunbk201.site/posts/when-is-main-not-a-function/</guid>
       <description>&lt;p&gt;这始于我的同伴，尽管他已经知道如何编程，但却被迫参加我大学的计算机科学入门课程。我们跟他开玩笑说，他需要做一个可以运行的程序，但是评分的老师不能搞明白它是如何运行的。所以要求就是制作一个满足作业要求的程序，同时又要混淆视听，让评分人认为它不应该能运行起来。考虑到这一点，我开始回想起之前见过的C语言技巧库，其中有一点特别突出。我将通过这个技巧完成这个特殊的程序，这个技巧的想法来自一篇博客 &lt;a href=&#34;http://mainisusuallyafunction.blogspot.com/&#34;&gt;main is usually a function&lt;/a&gt;，这让我想到什么时候 main 不是一个函数？&lt;/p&gt;
 &lt;p&gt;（你可以&lt;code&gt;下载&lt;/code&gt;我在这里写的代码，注意我是在 64-bit Linux 进行编写的，因此你如果在其它平台运行，你或许需要进行调整。）&lt;/p&gt;
 &lt;p&gt;我解决问题的过程通常和大多数程序员做的事情一样。第 1 步：在谷歌上搜索有关问题。第 2 步：点击第一页上每个看起来相关的链接。如果没有解决，尝试不同的查询，然后重复。值得庆幸的是，这个问题的&lt;a href=&#34;http://stackoverflow.com/a/2252429/745719&#34;&gt;答案&lt;/a&gt;出现在 Stackoverflow 首次搜索中。在 1984 年，一个奇怪的程序赢得了 IOCCC，其中 main 被声明为 &lt;code&gt;short main[] = {...}&lt;/code&gt;，不知何故，这个程序成功做了一些事情，并打印到屏幕上！这是一个很好的例子。不幸的是，它是为一个完全不同的架构和编译器编写的，所以我真的没有简单的方法来找出它做了什么，但从它只是一堆数字的事实来看，我可以推测，那里的数字只是一些短函数的编译二进制，链接器在寻找主函数时只是把它扔到它的位置。&lt;/p&gt;
@@ -684,10 +682,10 @@ Thread 2 Crashed:
     
     <item>
       <title>String Hashing 如何工作？</title>
-      <link>http://localhost:1313/posts/string-hashing/</link>
+      <link>http://blog.sunbk201.site/posts/string-hashing/</link>
       <pubDate>Tue, 15 Jun 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/string-hashing/</guid>
+      <guid>http://blog.sunbk201.site/posts/string-hashing/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;https://sunbk201.oss-cn-beijing.aliyuncs.com/img/20210614002954.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;字符串哈希是一种将字符串转换为哈希数字的技术。我们为什么需要这样做？有时我们需要比较超长字符串，此时我们可以比较生成的哈希，而不是比较字符串，从而提升效率。&lt;/p&gt;
 &lt;p&gt;假设你需要比较下面的两个字符串：&lt;/p&gt;
@@ -770,10 +768,10 @@ Thread 2 Crashed:
     
     <item>
       <title>什么是 /dev/null：介绍一下比特桶 (Bit Bucket)</title>
-      <link>http://localhost:1313/posts/dev-null-bit-bucket/</link>
+      <link>http://blog.sunbk201.site/posts/dev-null-bit-bucket/</link>
       <pubDate>Mon, 14 Jun 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/dev-null-bit-bucket/</guid>
+      <guid>http://blog.sunbk201.site/posts/dev-null-bit-bucket/</guid>
       <description>&lt;p&gt;如果你之前曾经使用过 Linux，你很有可能遇到过比特桶 (Bit Bucket)，通常写为 &lt;code&gt;/dev/null&lt;/code&gt;。了解这个特殊的文件是如何工作的以及它的重要性，有利于使之成为我们极有用的工具。我们将讨论什么是 &lt;code&gt;/dev/null&lt;/code&gt;，如何使用它，以及为什么它为什么叫做比特桶。我们还将探讨一些例子，说明它在通常情况下是如何使用的。&lt;/p&gt;
 &lt;h1 id=&#34;为什么叫-比特桶&#34;&gt;为什么叫 “比特桶”？&lt;/h1&gt;
 &lt;p&gt;早期的计算机使用打孔卡来存储数据和编程代码。当机器打完孔后，未使用的材料会掉进一个桶里。随着时间的推移，比特桶成为一个通用术语，指的是一个丢弃无用比特的地方。&lt;/p&gt;
@@ -830,17 +828,16 @@ Null message body; hope that&amp;#39;s ok
     
     <item>
       <title>3 Tribes of Programming - 3 大编程阵营</title>
-      <link>http://localhost:1313/posts/3-tribes-of-programming/</link>
+      <link>http://blog.sunbk201.site/posts/3-tribes-of-programming/</link>
       <pubDate>Sun, 06 Jun 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/3-tribes-of-programming/</guid>
+      <guid>http://blog.sunbk201.site/posts/3-tribes-of-programming/</guid>
       <description>&lt;p&gt;有一个老笑话，计算机科学其实是一个谎言，因为它不怎么跟计算机相关，也不是真正的科学。&lt;/p&gt;
 &lt;p&gt;有趣的笑话，每个人都笑了, 然后有人说 “但是它还是跟计算机有些相关性的，不是吗？”。&lt;/p&gt;
 &lt;p&gt;在外面，有争论是这样的：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;“ I’ll happily renounce “programmer” in favor of “applied mathematician” or something, whatever it takes to avoid C. - &lt;a href=&#34;https://t.co/DsIEo5x4uI&#34;&gt;https://t.co/DsIEo5x4uI&lt;/a&gt; / Twitter
-有些人认为，我们计算机中的整个现代堆栈（内核、操作系统、浏览器、虚拟机）是用C + ASM 编写的。所以你应该了解 C 和 ASM。&lt;/p&gt;
-&lt;/blockquote&gt;
+有些人认为，我们计算机中的整个现代堆栈（内核、操作系统、浏览器、虚拟机）是用C + ASM 编写的。所以你应该了解 C 和 ASM。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;这真的很重要吗？问题的关键在于：一个程序，指令序列与逻辑思想的表达，两者谁更重要？&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://sunbk201.oss-cn-beijing.aliyuncs.com/img/C9-K_xsVwAAJfqY.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;也可能两者都不是，而程序只是我们为其他人制作的东西。如果没有阅读它的读者，任何一条信息都是无意义的。如果不参考它们所处的外部世界，程序是否也毫无意义？&lt;/p&gt;
@@ -911,13 +908,11 @@ UI：代码如何与人互动是与它的实现应该分开考虑。让硬件的
 &lt;p&gt;在这个阵营和我谈到的其他两个阵营之间存在着很多冲突。而且这可能会变得有点刻薄。 我知道很多做产品的人对他们缺乏传统数据结构和算法的知识感到自责。他们觉得被 “真正的” 程序员批判，因为他们不能实现晦涩的算法和二进制框架协议。 在这个阵营的人看来，反正其他人已经实现了所有这些东西。所以，谁在乎呢？&lt;/p&gt;
 &lt;p&gt;这还算公平，但它也是事实，很多问题是由前端工程师缺乏技术能力造成的。这主要是自我纠正 - 如果你的程序太慢，你知道它并可以修复它。 但是安全工程是真正的危险。如果你不知道如何保护你编写的软件不受黑客攻击，那么它可能就很危险。 而且，即使你被黑了，你也可能不知道这是个问题。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&amp;ldquo;@jdan Well, then you’re not a very good programmer. Sorry but that’s how it is.&amp;rdquo; ~ Jonathan Blow (@Jonathan_Blow) June 12, 2015&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;&amp;ldquo;@jdan Well, then you’re not a very good programmer. Sorry but that’s how it is.&amp;rdquo; ~ Jonathan Blow (@Jonathan_Blow) June 12, 2015&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;就上面的言论而言，Jonathan Blow（著名的独立游戏开发者）说，如果你不能逆转二叉树，你就不是一个好的开发者，即使你每天都在写有用的软件。&lt;/p&gt;
 &lt;p&gt;他说的对吗？这取决于 “好的开发者” 是什么意思，而这又取决于你关心的是哪个阵营。 我认为 Blow 是&lt;a href=&#34;https://www.youtube.com/watch?v=gWv_vUgbmug&#34;&gt;在第二阵营&lt;/a&gt;，评判标准是你知道多少。 @jdan在第三阵营，所以他的评判标准是他做了什么。Jonathan Blow 当然会写出有用的软件，但他的上一个游戏（The Witness）花了这么长时间，原因之一是他自己写的引擎，而不是使用现成的东西。当&lt;a href=&#34;http://the-witness.net/news/2011/06/how-to-program-independent-games/comment-page-2/#comment-3655&#34;&gt;被问及这个问题时&lt;/a&gt;：&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;“ 我对Unity不是很了解。然而，很明显，如果不重写大部分Unity（或添加很多没有的东西，拒绝使用Unity提供的大部分东西），就无法在Unity中构建 The Witness。而我们反正已经有了一个简单的图形引擎。因此，在建立我们自己的系统时，我们可以确保它们确实是游戏所需要的最好的东西。 ”&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;“ 我对Unity不是很了解。然而，很明显，如果不重写大部分Unity（或添加很多没有的东西，拒绝使用Unity提供的大部分东西），就无法在Unity中构建 The Witness。而我们反正已经有了一个简单的图形引擎。因此，在建立我们自己的系统时，我们可以确保它们确实是游戏所需要的最好的东西。 ”&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;我怀疑他对第一部分的看法是错误的。但我自己主要是在第二阵营，所以我理解无论如何要写自己的引擎这种想法。我可能也会做同样的事情。&lt;/p&gt;
 &lt;p&gt;最喜欢的语言：无论做什么都完成了工作。JS, Ruby, Python, Swift, C#.&lt;/p&gt;
 &lt;p&gt;居所：Twitter, SydJS, StackOverflow, 你附近的公司!&lt;/p&gt;
@@ -948,10 +943,10 @@ UI：代码如何与人互动是与它的实现应该分开考虑。让硬件的
     
     <item>
       <title>Why OO Sucks - 为什么面向对象糟透了？</title>
-      <link>http://localhost:1313/posts/why-oo-sucks/</link>
+      <link>http://blog.sunbk201.site/posts/why-oo-sucks/</link>
       <pubDate>Thu, 03 Jun 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/why-oo-sucks/</guid>
+      <guid>http://blog.sunbk201.site/posts/why-oo-sucks/</guid>
       <description>&lt;p&gt;当我第一次接触到 OOP（面向对象编程） 思想的时候，我是持怀疑态度的，但我不知道是因为什么，只是感觉这是”错误“的。OOP 推出后变得非常流行（我稍后会解释为什么），现在批评 OOP 就好比在亵渎神明。OOness（面向对象性） 成为任何一种受欢迎语言必须拥有的东西。&lt;/p&gt;
 &lt;p&gt;说到这里，我想起了在巴黎举行的第 7 届 IEEE Logic 编程大会上，法国 IBM 时任老板的主旨演讲。 IBM prolog 已经添加了很多 OO 扩展，当被问及为什么他回答：&lt;/p&gt;
 &lt;p&gt;“我们的客户想要 OO prolog，所以我们制作了 OO prolog”&lt;/p&gt;
@@ -1006,40 +1001,40 @@ UI：代码如何与人互动是与它的实现应该分开考虑。让硬件的
     
     <item>
       <title>Shadowsocks-libev 部署教程</title>
-      <link>http://localhost:1313/posts/shadowsocks-libev-deploy/</link>
+      <link>http://blog.sunbk201.site/posts/shadowsocks-libev-deploy/</link>
       <pubDate>Wed, 02 Jun 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/shadowsocks-libev-deploy/</guid>
+      <guid>http://blog.sunbk201.site/posts/shadowsocks-libev-deploy/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://sunbk201public.notion.site/sunbk201public/Shadowsocks-libev-f78f777f132b4caea67b38736cc3d662&#34;&gt;https://sunbk201public.notion.site/sunbk201public/Shadowsocks-libev-f78f777f132b4caea67b38736cc3d662&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>ShellClash 加密防检测教程</title>
-      <link>http://localhost:1313/posts/shellclash-deploy/</link>
+      <link>http://blog.sunbk201.site/posts/shellclash-deploy/</link>
       <pubDate>Wed, 02 Jun 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/shellclash-deploy/</guid>
+      <guid>http://blog.sunbk201.site/posts/shellclash-deploy/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://sunbk201public.notion.site/sunbk201public/ShellClash-d199f43309e44ab4b4d4ece01dbac3bb&#34;&gt;https://sunbk201public.notion.site/sunbk201public/ShellClash-d199f43309e44ab4b4d4ece01dbac3bb&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>OpenWrt 编译与防检测部署教程</title>
-      <link>http://localhost:1313/posts/openwrt-compile/</link>
+      <link>http://blog.sunbk201.site/posts/openwrt-compile/</link>
       <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/openwrt-compile/</guid>
+      <guid>http://blog.sunbk201.site/posts/openwrt-compile/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://sunbk201public.notion.site/sunbk201public/OpenWrt-f59ae1a76741486092c27bc24dbadc59&#34;&gt;https://sunbk201public.notion.site/sunbk201public/OpenWrt-f59ae1a76741486092c27bc24dbadc59&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>全新方案-懒人福音-无需手动编译修改UA-校园网防检测</title>
-      <link>http://localhost:1313/posts/change-ua-by-proxy/</link>
+      <link>http://blog.sunbk201.site/posts/change-ua-by-proxy/</link>
       <pubDate>Sun, 30 May 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/change-ua-by-proxy/</guid>
+      <guid>http://blog.sunbk201.site/posts/change-ua-by-proxy/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://blog.sunbk201.site/posts/ua3f/&#34;&gt;校园网防检测: UA3F - 新一代 UA 修改方法&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://blog.sunbk201.site/crack-campus-network&#34;&gt;关于某大学校园网共享上网检测机制的研究与解决方案&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://blog.sunbk201.site/posts/openwrt-compile&#34;&gt;OpenWrt 编译与防检测部署教程&lt;/a&gt;&lt;/p&gt;
@@ -1077,10 +1072,10 @@ UI：代码如何与人互动是与它的实现应该分开考虑。让硬件的
     
     <item>
       <title>关于某大学校园网共享上网检测机制的研究与解决方案</title>
-      <link>http://localhost:1313/posts/crack-campus-network/</link>
+      <link>http://blog.sunbk201.site/posts/crack-campus-network/</link>
       <pubDate>Sat, 13 Mar 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/crack-campus-network/</guid>
+      <guid>http://blog.sunbk201.site/posts/crack-campus-network/</guid>
       <description>&lt;h1 id=&#34;前言&#34;&gt;前言&lt;/h1&gt;
 &lt;p&gt;关于本校的校园网，相信大家都知道是禁止单一账号下多设备同时访问互联网的，具体表现为 1 个账号只能同时让 1 台有线设备和 1 台无线设备接入互联网，这给我们一些拥有多设备的同学带来了很大的不便，因此不少同学想到了使用家用路由器的方式来解决这个为问题，然而校园网会进行共享上网检测，一旦发现一个 IP 下有多个不同设备的流量，就会封禁账号 2-8 小时不等，害的同学们怨声载道。&lt;/p&gt;
 &lt;p&gt;然而奇怪的是本校内竟无应对此检测的方案，俗话说得好，道高一尺魔高一丈，肯定是有办法解决这个问题的。 因此本人出于学术兴趣，针对本校校园网共享上网检测机制进行了研究分析，并针对该机制提出了一些解决方案。&lt;/p&gt;
@@ -1105,8 +1100,7 @@ UI：代码如何与人互动是与它的实现应该分开考虑。让硬件的
 &lt;p&gt;下面我会对这些技术的实现原理作出进一步说明。&lt;/p&gt;
 &lt;h2 id=&#34;基于-ipv4-数据包包头内的-ttl-字段的检测&#34;&gt;基于 IPv4 数据包包头内的 TTL 字段的检测&lt;/h2&gt;
 &lt;blockquote&gt;
-&lt;p&gt;存活时间（Time To Live，TTL），指一个数据包在经过一个路由器时，可传递的最长距离（跃点数）。 每当数据包经过一个路由器时，其存活次数就会被减一。当其存活次数为0时，路由器便会取消该数据包转发，IP网络的话，会向原数据包的发出者发送一个ICMP TTL数据包以告知跃点数超限。其设计目的是防止数据包因不正确的路由表等原因造成的无限循环而无法送达及耗尽网络资源。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;存活时间（Time To Live，TTL），指一个数据包在经过一个路由器时，可传递的最长距离（跃点数）。 每当数据包经过一个路由器时，其存活次数就会被减一。当其存活次数为0时，路由器便会取消该数据包转发，IP网络的话，会向原数据包的发出者发送一个ICMP TTL数据包以告知跃点数超限。其设计目的是防止数据包因不正确的路由表等原因造成的无限循环而无法送达及耗尽网络资源。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;这是一个比较有效且合理的检测技术，IPv4数据包下存在 TTL（Time To Live）这一字段，数据包每经过一个路由器（即经过一个网段），该TTL值就会减一。&lt;/p&gt;
 &lt;p&gt;不同的操作系统的默认 TTL 值是不同的，Windows 是 128， macOS/iOS、Linux 是 64。&lt;/p&gt;
 &lt;p&gt;因此如果我们自己接入路由器到校园网，我们的通过路由器的数据包会变为 127 或 63，一旦校园网抓包检测到这种数据包TTL不是128或64，就会判定为用户接入了路由器。&lt;/p&gt;
@@ -1185,7 +1179,16 @@ Flash Cookie 会记录用户在访问 Flash 网页的时候保留的信息，只
 &lt;p&gt;验证方式：&lt;a href=&#34;http://ua.233996.xyz/&#34;&gt;UA 检测-HTTP&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&#34;方案四ua3f&#34;&gt;方案四：UA3F&lt;/h3&gt;
 &lt;p&gt;&lt;a href=&#34;https://blog.sunbk201.site/posts/ua3f/&#34;&gt;校园网防检测: UA3F - 新一代 UA 修改方法&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&#34;方案四使用代理客户端中的重写功能对-http-header-进行修改&#34;&gt;方案四：使用代理客户端中的重写功能对 http-header 进行修改&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/SunBK201/UA3F&#34;&gt;UA3F Github&lt;/a&gt;&lt;/p&gt;
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;img src=&#34;https://sunbk201.oss-cn-beijing.aliyuncs.com/img/ua3f-luci&#34; alt=&#34;Left Image&#34;&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;img src=&#34;https://sunbk201.oss-cn-beijing.aliyuncs.com/img/ua3f-statistics&#34; alt=&#34;Right Image&#34;&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://sunbk201.oss-cn-beijing.aliyuncs.com/img/ua3f&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;方案五使用代理客户端中的重写功能对-http-header-进行修改&#34;&gt;方案五：使用代理客户端中的重写功能对 http-header 进行修改&lt;/h3&gt;
 &lt;p&gt;这应该是最容易操作的方法，也可能是有效的方法。&lt;/p&gt;
 &lt;p&gt;以 Quantumult X 为例，只需在重写规则里面加入一条：&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;http:// url request-header (\r\n)User-[A|a]gent:.+(\r\n) request-header $1User-Agent: $2
@@ -1318,10 +1321,10 @@ iptables -I FORWARD -p tcp --sport 80 --tcp-flags ACK ACK -m string --algo bm --
     
     <item>
       <title>hello, world</title>
-      <link>http://localhost:1313/posts/hello-world/</link>
+      <link>http://blog.sunbk201.site/posts/hello-world/</link>
       <pubDate>Sun, 01 Mar 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/hello-world/</guid>
+      <guid>http://blog.sunbk201.site/posts/hello-world/</guid>
       <description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;()
