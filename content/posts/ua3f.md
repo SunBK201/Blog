@@ -7,6 +7,8 @@ draft: false
 # 太长不看（写于 2025.11）
 修改 User-Agent 字段：使用 [UA3F](https://github.com/SunBK201/UA3F)，默认配置开箱即用，ipk 安装即可。
 
+UA3F 的使用教程见：[猴子也能看懂的 UA3F 使用教程](https://sunbk201public.notion.site/UA3F-2a21f32cbb4b80669e04ec1f053d0333)
+
 # 前言
 目前众多高校依旧对校园网络共享行为进行严格限制，具体表现为：
 - 对每人接入校园网络的设备数量进行限制

@@ -17,6 +17,8 @@ draft: false
 2. 修改 User-Agent 字段：使用 [UA3F](https://github.com/SunBK201/UA3F)，默认配置开箱即用，ipk 安装即可。
 3. 加密流量：使用科学代理加密（例如 Clash、Surge 等），将部分特征流量进行加密。[UA3F](https://github.com/SunBK201/UA3F#clash-参考配置) 提供了 Clash 参考配置。
 
+UA3F 的使用教程见：[猴子也能看懂的 UA3F 使用教程](https://sunbk201public.notion.site/UA3F-2a21f32cbb4b80669e04ec1f053d0333)
+
 ⚠️关于 IPID 的检测：现代网络设备 IPID 已经不再递增，因此不再需要修改 IPID。
 
 # 前言
