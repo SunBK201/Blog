@@ -13,7 +13,9 @@
       <pubDate>Sun, 03 Dec 2023 03:37:08 +0800</pubDate>
       
       <guid>http://blog.sunbk201.site/posts/ua3f/</guid>
-      <description>&lt;h1 id=&#34;前言&#34;&gt;前言&lt;/h1&gt;
+      <description>&lt;h1 id=&#34;太长不看写于-202511&#34;&gt;太长不看（写于 2025.11）&lt;/h1&gt;
+&lt;p&gt;修改 User-Agent 字段：使用 &lt;a href=&#34;https://github.com/SunBK201/UA3F&#34;&gt;UA3F&lt;/a&gt;，默认配置开箱即用，ipk 安装即可。&lt;/p&gt;
+&lt;h1 id=&#34;前言&#34;&gt;前言&lt;/h1&gt;
 &lt;p&gt;目前众多高校依旧对校园网络共享行为进行严格限制，具体表现为：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;对每人接入校园网络的设备数量进行限制&lt;/li&gt;
@@ -1060,7 +1062,22 @@ UI：代码如何与人互动是与它的实现应该分开考虑。让硬件的
       <pubDate>Sat, 13 Mar 2021 00:00:00 +0000</pubDate>
       
       <guid>http://blog.sunbk201.site/posts/crack-campus-network/</guid>
-      <description>&lt;h1 id=&#34;前言&#34;&gt;前言&lt;/h1&gt;
+      <description>&lt;h1 id=&#34;太长不看写于-202511&#34;&gt;太长不看（写于 2025.11）&lt;/h1&gt;
+&lt;p&gt;校园网共享检测有 3 种方式，检测力和难度依次加大：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;针对 IP 数据包的 TTL 字段的检测&lt;/li&gt;
+&lt;li&gt;针对 HTTP User-Agent 字段的检测&lt;/li&gt;
+&lt;li&gt;针对部分应用特征的 DPI 检测（例如微信）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;⚠️注意：你的校园网不一定 3 种方式都会开启。&lt;/p&gt;
+&lt;p&gt;下面是针对这 3 种检测方式的解决方案总结：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;修改 TTL 字段：在路由器防火墙添加。见 &lt;a href=&#34;https://github.com/SunBK201/UA3F#extra&#34;&gt;UA3F&lt;/a&gt; Extra 部分。&lt;/li&gt;
+&lt;li&gt;修改 User-Agent 字段：使用 &lt;a href=&#34;https://github.com/SunBK201/UA3F&#34;&gt;UA3F&lt;/a&gt;，默认配置开箱即用，ipk 安装即可。&lt;/li&gt;
+&lt;li&gt;加密流量：使用科学代理加密（例如 Clash、Surge 等），将部分特征流量进行加密。&lt;a href=&#34;https://github.com/SunBK201/UA3F#clash-%E5%8F%82%E8%80%83%E9%85%8D%E7%BD%AE&#34;&gt;UA3F&lt;/a&gt; 提供了 Clash 参考配置。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;⚠️关于 IPID 的检测：现代网络设备 IPID 已经不再递增，因此不再需要修改 IPID。&lt;/p&gt;
+&lt;h1 id=&#34;前言&#34;&gt;前言&lt;/h1&gt;
 &lt;p&gt;关于本校的校园网，相信大家都知道是禁止单一账号下多设备同时访问互联网的，具体表现为 1 个账号只能同时让 1 台有线设备和 1 台无线设备接入互联网，这给我们一些拥有多设备的同学带来了很大的不便，因此不少同学想到了使用家用路由器的方式来解决这个为问题，然而校园网会进行共享上网检测，一旦发现一个 IP 下有多个不同设备的流量，就会封禁账号 2-8 小时不等，害的同学们怨声载道。&lt;/p&gt;
 &lt;p&gt;然而奇怪的是本校内竟无应对此检测的方案，俗话说得好，道高一尺魔高一丈，肯定是有办法解决这个问题的。 因此本人出于学术兴趣，针对本校校园网共享上网检测机制进行了研究分析，并针对该机制提出了一些解决方案。&lt;/p&gt;
 &lt;h1 id=&#34;对于本校校园网网络环境的说明&#34;&gt;对于本校校园网网络环境的说明&lt;/h1&gt;
