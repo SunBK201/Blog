@@ -13,7 +13,7 @@ draft: false
 ⚠️注意：你的校园网不一定 3 种方式都会开启。
 
 下面是针对这 3 种检测方式的解决方案总结：
-1. 修改 TTL 字段：在路由器防火墙添加。见 [UA3F](https://github.com/SunBK201/UA3F#extra) Extra 部分。
+1. 修改 TTL 字段：在路由器防火墙添加。使用 [UA3F](https://github.com/SunBK201/UA3F) 默认配置开箱即用，ipk 安装即可。
 2. 修改 User-Agent 字段：使用 [UA3F](https://github.com/SunBK201/UA3F)，默认配置开箱即用，ipk 安装即可。
 3. 加密流量：使用科学代理加密（例如 Clash、Surge 等），将部分特征流量进行加密。[UA3F](https://github.com/SunBK201/UA3F#clash-参考配置) 提供了 Clash 参考配置。
 
