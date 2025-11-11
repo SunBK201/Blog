@@ -5,17 +5,19 @@ draft: false
 ---
 
 # 太长不看（写于 2025.11）
-校园网共享检测有 3 种方式，检测力和难度依次加大：
+校园网共享检测有 4 种方式，检测力和难度依次加大：
 1. 针对 IP 数据包的 TTL 字段的检测
 2. 针对 HTTP User-Agent 字段的检测
-3. 针对部分应用特征的 DPI 检测（例如微信）
+3. 针对 TCP 时间戳计算时钟偏移的检测
+4. 针对部分应用特征的 DPI 检测（例如微信）
 
-⚠️注意：你的校园网不一定 3 种方式都会开启。
+⚠️注意：你的校园网不一定 4 种方式都会开启。
 
-下面是针对这 3 种检测方式的解决方案总结：
+下面是针对这 4 种检测方式的解决方案总结：
 1. 修改 TTL 字段：在路由器防火墙添加。使用 [UA3F](https://github.com/SunBK201/UA3F) 默认配置开箱即用，ipk 安装即可。
 2. 修改 User-Agent 字段：使用 [UA3F](https://github.com/SunBK201/UA3F)，默认配置开箱即用，ipk 安装即可。
-3. 加密流量：使用科学代理加密（例如 Clash、Surge 等），将部分特征流量进行加密。[UA3F](https://github.com/SunBK201/UA3F#clash-参考配置) 提供了 Clash 参考配置。
+3. 清除 TCP 时间戳选项：使用 [UA3F](https://github.com/SunBK201/UA3F) 的清除 TCP 时间戳选项功能即可。
+4. 加密流量：使用科学代理加密（例如 Clash、Surge 等），将部分特征流量进行加密。[UA3F](https://github.com/SunBK201/UA3F#clash-参考配置) 提供了 Clash 参考配置。
 
 UA3F 的使用教程见：[猴子也能看懂的 UA3F 使用教程](https://sunbk201public.notion.site/UA3F-2a21f32cbb4b80669e04ec1f053d0333)
 
