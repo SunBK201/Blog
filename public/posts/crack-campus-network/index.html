@@ -38,17 +38,19 @@
         <h1>关于某大学校园网共享上网检测机制的研究与解决方案</h1>
     </header>
     <h1 id="太长不看写于-202511">太长不看（写于 2025.11）</h1>
-<p>校园网共享检测有 3 种方式，检测力和难度依次加大：</p>
+<p>校园网共享检测有 4 种方式，检测力和难度依次加大：</p>
 <ol>
 <li>针对 IP 数据包的 TTL 字段的检测</li>
 <li>针对 HTTP User-Agent 字段的检测</li>
+<li>针对 TCP 时间戳计算时钟偏移的检测</li>
 <li>针对部分应用特征的 DPI 检测（例如微信）</li>
 </ol>
-<p>⚠️注意：你的校园网不一定 3 种方式都会开启。</p>
-<p>下面是针对这 3 种检测方式的解决方案总结：</p>
+<p>⚠️注意：你的校园网不一定 4 种方式都会开启。</p>
+<p>下面是针对这 4 种检测方式的解决方案总结：</p>
 <ol>
 <li>修改 TTL 字段：在路由器防火墙添加。使用 <a href="https://github.com/SunBK201/UA3F">UA3F</a> 默认配置开箱即用，ipk 安装即可。</li>
 <li>修改 User-Agent 字段：使用 <a href="https://github.com/SunBK201/UA3F">UA3F</a>，默认配置开箱即用，ipk 安装即可。</li>
+<li>清除 TCP 时间戳选项：使用 <a href="https://github.com/SunBK201/UA3F">UA3F</a> 的清除 TCP 时间戳选项功能即可。</li>
 <li>加密流量：使用科学代理加密（例如 Clash、Surge 等），将部分特征流量进行加密。<a href="https://github.com/SunBK201/UA3F#clash-%E5%8F%82%E8%80%83%E9%85%8D%E7%BD%AE">UA3F</a> 提供了 Clash 参考配置。</li>
 </ol>
 <p>UA3F 的使用教程见：<a href="https://sunbk201public.notion.site/UA3F-2a21f32cbb4b80669e04ec1f053d0333">猴子也能看懂的 UA3F 使用教程</a></p>
