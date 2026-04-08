@@ -4,6 +4,20 @@
         <time datetime="{{.Date}}">{{time.Format "2006-01-02" .Date}}</time>
         <h1>{{ .Title }}</h1>
     </header>
-    {{ .Content }}
+    {{ $toc := .TableOfContents }}
+    <div class="post-layout">
+        {{ if findRE "<li" $toc }}
+        <aside class="toc" aria-label="Table of contents">
+            <h2>目录</h2>
+            {{ $toc }}
+        </aside>
+        {{ end }}
+        <article class="post-content">
+            {{ .Content }}
+        </article>
+    </div>
+    {{ if findRE "<li" $toc }}
+    <script src="/js/toc-scrollspy.js" defer></script>
+    {{ end }}
 </main>
 {{ end }}

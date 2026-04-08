@@ -26,7 +26,7 @@
         </filter>
     </svg>
 </head><body><header>
-    <h1><a rel="author" href="/">SunBK201</a></h1>
+    <h1><a rel="author" href="/">SunBK201's Blog</a></h1>
     <nav>
         <a href="/about">About</a>
         <a href="/feed.xml" data-no-instant>RSS</a>
@@ -37,7 +37,11 @@
         <time datetime="2021-06-21 00:00:00 &#43;0000 UTC">2021-06-21</time>
         <h1>关于 iOS SSID 格式字符串 BUG 的快速分析</h1>
     </header>
-    <p>数天前，Twitter 上的<a href="https://twitter.com/vm_call/status/1405937492642123782">一条推文</a>爆出了一个iOS Wi-Fi 的 BUG：</p>
+    
+    <div class="post-layout">
+        
+        <article class="post-content">
+            <p>数天前，Twitter 上的<a href="https://twitter.com/vm_call/status/1405937492642123782">一条推文</a>爆出了一个iOS Wi-Fi 的 BUG：</p>
 <blockquote>
 <p>@vm_call: After joining my personal WiFi with the SSID “%p%s%s%s%s%n”, my iPhone permanently disabled it’s WiFi functionality. Neither rebooting nor changing SSID fixes it :~)</p>
 </blockquote>
@@ -109,6 +113,9 @@ Thread 2 Crashed:
 <p>对于可利用性，目前还没有问题，其余的参数也不像是可以控制的。因此，我不认为这个 bug 是可利用的。毕竟，要触发这个 bug，你需要连接到该 WiFi，其中的 <code>SSID</code> 对受害者是可见的。钓鱼 Wi-Fi 或许更有效。</p>
 <p>This is a version from <a href="https://blog.chichou.me/">Schou</a>.</p>
 
+        </article>
+    </div>
+    
 </main>
 <footer>
     <span>Copyright &copy; SunBK201 Ushiromiya</span>

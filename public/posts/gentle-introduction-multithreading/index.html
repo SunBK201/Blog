@@ -26,7 +26,7 @@
         </filter>
     </svg>
 </head><body><header>
-    <h1><a rel="author" href="/">SunBK201</a></h1>
+    <h1><a rel="author" href="/">SunBK201's Blog</a></h1>
     <nav>
         <a href="/about">About</a>
         <a href="/feed.xml" data-no-instant>RSS</a>
@@ -37,7 +37,30 @@
         <time datetime="2021-08-26 00:00:00 &#43;0000 UTC">2021-08-26</time>
         <h1>多线程简介：走进并发世界</h1>
     </header>
-    <p>现代计算机有能力在同一时间进行多种操作。在硬件进步和愈发智能的操作系统的支持下，这一特性能够使我们的程序运行得更快，无论是在执行速度还是响应速度方面。</p>
+    
+    <div class="post-layout">
+        
+        <aside class="toc" aria-label="Table of contents">
+            <h2>目录</h2>
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#进程和线程命名">进程和线程：命名</a></li>
+    <li><a href="#进程与线程的不同">进程与线程的不同</a></li>
+    <li><a href="#绿色线程纤维">绿色线程：纤维</a></li>
+    <li><a href="#线程的用途">线程的用途</a></li>
+    <li><a href="#是什么让并发和并行成为可能">是什么让并发和并行成为可能</a></li>
+    <li><a href="#单核上的运行多线程应用有意义吗">单核上的运行多线程应用：有意义吗？</a></li>
+    <li><a href="#越多线程越多问题">越多线程，越多问题</a></li>
+    <li><a href="#线程安全的概念">线程安全的概念</a></li>
+    <li><a href="#数据竞争的根源">数据竞争的根源</a></li>
+    <li><a href="#竞态条件">竞态条件</a></li>
+    <li><a href="#教会线程们如何相处并发控制">教会线程们如何相处：并发控制</a></li>
+  </ul>
+</nav>
+        </aside>
+        
+        <article class="post-content">
+            <p>现代计算机有能力在同一时间进行多种操作。在硬件进步和愈发智能的操作系统的支持下，这一特性能够使我们的程序运行得更快，无论是在执行速度还是响应速度方面。</p>
 <p>利用多线程的优势编写软件是非常有趣的，但是也非常困难：它需要你了解你的计算机的内部。多线程是操作系统提供的一种充满魔力的工具，在这一篇我们将尝试掀开多线程的面纱，让我们开始吧！</p>
 <h1 id="进程和线程命名">进程和线程：命名</h1>
 <p>现代操作系统可以同时运行多个程序。这就是为什么你可以在你的浏览器（一个程序）中阅读这篇文章，同时在你的媒体播放器（另一个程序）中听音乐。每个程序被称为一个正在执行的进程。操作系统可以利用许多软件技巧，使一个进程与其他进程一起运行，或者充分利用底层硬件的优势。无论哪种方式，最后的结果都是你感觉到所有程序都在同时运行。</p>
@@ -98,6 +121,11 @@ reader_thread.start()
 </ul>
 <p>This is a version from <a href="https://www.internalpointers.com/">Internal Pointers</a>.</p>
 
+        </article>
+    </div>
+    
+    <script src="/js/toc-scrollspy.js" defer></script>
+    
 </main>
 <footer>
     <span>Copyright &copy; SunBK201 Ushiromiya</span>

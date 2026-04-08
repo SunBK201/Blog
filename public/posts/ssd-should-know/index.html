@@ -26,7 +26,7 @@
         </filter>
     </svg>
 </head><body><header>
-    <h1><a rel="author" href="/">SunBK201</a></h1>
+    <h1><a rel="author" href="/">SunBK201's Blog</a></h1>
     <nav>
         <a href="/about">About</a>
         <a href="/feed.xml" data-no-instant>RSS</a>
@@ -37,7 +37,25 @@
         <time datetime="2021-06-23 00:00:00 &#43;0000 UTC">2021-06-23</time>
         <h1>关于 SSD，每一位开发者都应该知道的一些知识</h1>
     </header>
-    <p>基于闪存的 Solid-State Drives (SSDs) 固态硬盘 已经在很大程度上取代了磁盘，成为标准的存储介质。从程序员的角度来看，固态硬盘和磁盘看起来非常相似：两者都是持久性的，通过文件系统和系统调用实现基于页面（如 4KB）的访问，并且具有大容量。</p>
+    
+    <div class="post-layout">
+        
+        <aside class="toc" aria-label="Table of contents">
+            <h2>目录</h2>
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#驱动器drives不是磁盘disks">驱动器（Drives）不是磁盘（Disks）</a></li>
+    <li><a href="#并行性">并行性</a></li>
+    <li><a href="#写入">写入</a></li>
+    <li><a href="#out-of-place-写入">Out-Of-Place 写入</a></li>
+    <li><a href="#写入放大与超额配置">写入放大与超额配置</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+        </aside>
+        
+        <article class="post-content">
+            <p>基于闪存的 Solid-State Drives (SSDs) 固态硬盘 已经在很大程度上取代了磁盘，成为标准的存储介质。从程序员的角度来看，固态硬盘和磁盘看起来非常相似：两者都是持久性的，通过文件系统和系统调用实现基于页面（如 4KB）的访问，并且具有大容量。</p>
 <p>然而，也有一些重要的区别，如果想达到最佳的 SSD 性能，这些区别就变得很重要。周所周知，SSD 更加复杂，如果只是简单地认为它们是快速的磁盘，那么它们的性能表现会显得相当难以理解。这篇文章的目的是让大家了解为什么 SSD 会有这样的性能表现，这有助于构建能够充分利用它们的软件。请注意，我讨论的是 NAND 闪存，而不是英特尔 Optane 内存，后者具有不同的特性）。</p>
 <h1 id="驱动器drives不是磁盘disks">驱动器（Drives）不是磁盘（Disks）</h1>
 <p>固态硬盘经常被称为磁盘，但这是一种误导，因为它们在半导体上存储数据，而不是在机械磁盘上。要从一个随机块中读取或写入，磁盘必须机械地将其磁头移动到正确的位置，这需要 10ms 的时间。相比之下，从固态硬盘中进行随机读取，需要大约 100us–快 100 倍。这种低读取延迟就是为什么系统从固态硬盘启动要比从磁盘启动快得多的原因。</p>
@@ -177,6 +195,11 @@
 <p>目前，固态硬盘已经变得相当便宜，而且它们具有非常高的性能。例如，三星 PM1733 服务器固态硬盘每 TB 价格约为 200 EUR ，并承诺提供接近 7GB/s 的读取和 4GB/s 的写入带宽。实际上，要实现如此高的性能，需要了解 SSD 的工作原理，这篇文章就是描述了闪存 SSD 最重要的底层机制。</p>
 <p>我尽量让这篇文章简短，要想了解更多，<a href="https://codecapsule.com/2014/02/12/coding-for-ssds-part-1-introduction-and-table-of-contents/">这篇教程</a> 是一个不错的起点。最后，由于 SSD 已经变得如此之快，操作系统的 I/O 堆栈往往成为性能瓶颈。Linux 的实验结果可以在这篇的  <a href="http://cidrdb.org/cidr2020/papers/p16-haas-cidr20.pdf">CIDR 2020论文</a> 中找到。</p>
 
+        </article>
+    </div>
+    
+    <script src="/js/toc-scrollspy.js" defer></script>
+    
 </main>
 <footer>
     <span>Copyright &copy; SunBK201 Ushiromiya</span>

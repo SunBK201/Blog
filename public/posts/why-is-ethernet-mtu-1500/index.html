@@ -26,7 +26,7 @@
         </filter>
     </svg>
 </head><body><header>
-    <h1><a rel="author" href="/">SunBK201</a></h1>
+    <h1><a rel="author" href="/">SunBK201's Blog</a></h1>
     <nav>
         <a href="/about">About</a>
         <a href="/feed.xml" data-no-instant>RSS</a>
@@ -37,7 +37,21 @@
         <time datetime="2021-07-15 00:00:00 &#43;0000 UTC">2021-07-15</time>
         <h1>1500 字节是如何成为互联网的 MTU 的？</h1>
     </header>
-    <p>以太网无处不在，数以万计的硬件供应商都在讨论和实现它。然而，几乎每个以太网链路都都有一个共同的数字，那就是 MTU：</p>
+    
+    <div class="post-layout">
+        
+        <aside class="toc" aria-label="Table of contents">
+            <h2>目录</h2>
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#神奇的数字">神奇的数字</a></li>
+    <li><a href="#效率问题">效率问题</a></li>
+  </ul>
+</nav>
+        </aside>
+        
+        <article class="post-content">
+            <p>以太网无处不在，数以万计的硬件供应商都在讨论和实现它。然而，几乎每个以太网链路都都有一个共同的数字，那就是 MTU：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ip l
 </span></span><span style="display:flex;"><span>1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu <span style="color:#ae81ff">65536</span> state UNKNOWN
 </span></span><span style="display:flex;"><span>    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
@@ -72,6 +86,11 @@
 <p>但我认为在这一点上，宽广的互联网上已经有人这样做过。虽然一些<a href="https://web.archive.org/web/20200108213905/https://he.net/ip_transit.html">互联网通信公司以 9000MTU 运营</a>，但绝大多数并非如此，而且一次又一次地<a href="https://en.wikipedia.org/wiki/IPv6_deployment">证明</a>，共同改变互联网的想法是非常困难的。</p>
 <p>This is a version from <a href="https://blog.benjojo.co.uk/">benjojo</a>.</p>
 
+        </article>
+    </div>
+    
+    <script src="/js/toc-scrollspy.js" defer></script>
+    
 </main>
 <footer>
     <span>Copyright &copy; SunBK201 Ushiromiya</span>

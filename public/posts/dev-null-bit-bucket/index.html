@@ -26,7 +26,7 @@
         </filter>
     </svg>
 </head><body><header>
-    <h1><a rel="author" href="/">SunBK201</a></h1>
+    <h1><a rel="author" href="/">SunBK201's Blog</a></h1>
     <nav>
         <a href="/about">About</a>
         <a href="/feed.xml" data-no-instant>RSS</a>
@@ -37,7 +37,32 @@
         <time datetime="2021-06-14 00:00:00 &#43;0000 UTC">2021-06-14</time>
         <h1>什么是 /dev/null：介绍一下比特桶 (Bit Bucket)</h1>
     </header>
-    <p>如果你之前曾经使用过 Linux，你很有可能遇到过比特桶 (Bit Bucket)，通常写为 <code>/dev/null</code>。了解这个特殊的文件是如何工作的以及它的重要性，有利于使之成为我们极有用的工具。我们将讨论什么是 <code>/dev/null</code>，如何使用它，以及为什么它为什么叫做比特桶。我们还将探讨一些例子，说明它在通常情况下是如何使用的。</p>
+    
+    <div class="post-layout">
+        
+        <aside class="toc" aria-label="Table of contents">
+            <h2>目录</h2>
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#为什么叫-比特桶">为什么叫 “比特桶”？</a></li>
+    <li><a href="#devnull-文件">/dev/null 文件</a></li>
+    <li><a href="#devnull-文件的使用">/dev/null 文件的使用</a>
+      <ul>
+        <li><a href="#使用-devnull-抑制输出">使用 /dev/null 抑制输出</a></li>
+        <li><a href="#使用-devnull-来输入-eofend-of-file">使用 /dev/null 来输入 EOF（End of File）</a>
+          <ul>
+            <li><a href="#使用-devnull-来清空一个文件">使用 /dev/null 来清空一个文件</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+        </aside>
+        
+        <article class="post-content">
+            <p>如果你之前曾经使用过 Linux，你很有可能遇到过比特桶 (Bit Bucket)，通常写为 <code>/dev/null</code>。了解这个特殊的文件是如何工作的以及它的重要性，有利于使之成为我们极有用的工具。我们将讨论什么是 <code>/dev/null</code>，如何使用它，以及为什么它为什么叫做比特桶。我们还将探讨一些例子，说明它在通常情况下是如何使用的。</p>
 <h1 id="为什么叫-比特桶">为什么叫 “比特桶”？</h1>
 <p>早期的计算机使用打孔卡来存储数据和编程代码。当机器打完孔后，未使用的材料会掉进一个桶里。随着时间的推移，比特桶成为一个通用术语，指的是一个丢弃无用比特的地方。</p>
 <p><code>/dev/null</code> 的其他名字是 black hole、null route、punch bucket、null device，或者只是 null。</p>
@@ -89,6 +114,11 @@ Null message body; hope that&#39;s ok
 </ul>
 <p>This is a version from <a href="https://www.putorius.net/">putorius</a>.</p>
 
+        </article>
+    </div>
+    
+    <script src="/js/toc-scrollspy.js" defer></script>
+    
 </main>
 <footer>
     <span>Copyright &copy; SunBK201 Ushiromiya</span>

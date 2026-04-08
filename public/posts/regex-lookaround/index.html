@@ -26,7 +26,7 @@
         </filter>
     </svg>
 </head><body><header>
-    <h1><a rel="author" href="/">SunBK201</a></h1>
+    <h1><a rel="author" href="/">SunBK201's Blog</a></h1>
     <nav>
         <a href="/about">About</a>
         <a href="/feed.xml" data-no-instant>RSS</a>
@@ -37,7 +37,11 @@
         <time datetime="2021-12-31 00:00:00 &#43;0000 UTC">2021-12-31</time>
         <h1>正则表达式高阶使用：负向零宽度断言</h1>
     </header>
-    <p>当我在写 Surge 的规则配置文件时，我发现我需要通过正则表达式使用 policy-regex-filter 进行过滤，具体的需求是：排除包含指定字符串的节点，过滤获得没有包含指定字符串的节点。</p>
+    
+    <div class="post-layout">
+        
+        <article class="post-content">
+            <p>当我在写 Surge 的规则配置文件时，我发现我需要通过正则表达式使用 policy-regex-filter 进行过滤，具体的需求是：排除包含指定字符串的节点，过滤获得没有包含指定字符串的节点。</p>
 <p>这是个难题，平时使用正则表达式主要是“匹配”的思想，这次要使用“否定排除”的思想。</p>
 <p>零宽度断言 (zero-width-assertions) 解决了这个问题。 我们这里讨论的是否定的断言。 零宽度断言所匹配到的内容并不会保存到结果中去。</p>
 <pre tabindex="0"><code>^((?!hede).)*$
@@ -55,6 +59,9 @@ index    0      1      2      3      4      5      6      7
 <p>例如，仅仅当这个数字后面没有跟小数点的时候，<code>\d+(?!\.)</code> 匹配一个数字。正则表达式 <code>\d+(?!\.)</code> 匹配 <code>141</code> 而不是 <code>3.141</code>。</p>
 <p>但 <code>(?!hede).</code> 的这种用法属实少见，其思想是将其匹配字符之前的部分看作是一个字符串（空字符串）（<code>[空字符串](?!hede).</code>），而检查是这个空字符串的后面是否匹配 <code>(?!hede)</code>。</p>
 
+        </article>
+    </div>
+    
 </main>
 <footer>
     <span>Copyright &copy; SunBK201 Ushiromiya</span>

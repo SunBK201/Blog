@@ -26,7 +26,7 @@
         </filter>
     </svg>
 </head><body><header>
-    <h1><a rel="author" href="/">SunBK201</a></h1>
+    <h1><a rel="author" href="/">SunBK201's Blog</a></h1>
     <nav>
         <a href="/about">About</a>
         <a href="/feed.xml" data-no-instant>RSS</a>
@@ -37,7 +37,20 @@
         <time datetime="2021-06-15 00:00:00 &#43;0000 UTC">2021-06-15</time>
         <h1>String Hashing 如何工作？</h1>
     </header>
-    <p><img src="https://sunbk201.oss-cn-beijing.aliyuncs.com/img/20210614002954.png" alt=""></p>
+    
+    <div class="post-layout">
+        
+        <aside class="toc" aria-label="Table of contents">
+            <h2>目录</h2>
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#string-hash-公式">String Hash 公式</a></li>
+  </ul>
+</nav>
+        </aside>
+        
+        <article class="post-content">
+            <p><img src="https://sunbk201.oss-cn-beijing.aliyuncs.com/img/20210614002954.png" alt=""></p>
 <p>字符串哈希是一种将字符串转换为哈希数字的技术。我们为什么需要这样做？有时我们需要比较超长字符串，此时我们可以比较生成的哈希，而不是比较字符串，从而提升效率。</p>
 <p>假设你需要比较下面的两个字符串：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">A</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;imagine that this is a string of 200 characters&#34;</span>
@@ -115,6 +128,11 @@
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">hash</span>(<span style="color:#e6db74">&#34;apple&#34;</span>));
 </span></span></code></pre></div><p>This is a version from <a href="https://jorgechavez.dev/">Jorge Chávez</a>.</p>
 
+        </article>
+    </div>
+    
+    <script src="/js/toc-scrollspy.js" defer></script>
+    
 </main>
 <footer>
     <span>Copyright &copy; SunBK201 Ushiromiya</span>

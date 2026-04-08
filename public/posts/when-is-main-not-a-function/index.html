@@ -26,7 +26,7 @@
         </filter>
     </svg>
 </head><body><header>
-    <h1><a rel="author" href="/">SunBK201</a></h1>
+    <h1><a rel="author" href="/">SunBK201's Blog</a></h1>
     <nav>
         <a href="/about">About</a>
         <a href="/feed.xml" data-no-instant>RSS</a>
@@ -37,7 +37,11 @@
         <time datetime="2021-06-18 00:00:00 &#43;0000 UTC">2021-06-18</time>
         <h1>main 通常是个函数，那么什么时候不是呢？</h1>
     </header>
-    <p>这始于我的同伴，尽管他已经知道如何编程，但却被迫参加我大学的计算机科学入门课程。我们跟他开玩笑说，他需要做一个可以运行的程序，但是评分的老师不能搞明白它是如何运行的。所以要求就是制作一个满足作业要求的程序，同时又要混淆视听，让评分人认为它不应该能运行起来。考虑到这一点，我开始回想起之前见过的C语言技巧库，其中有一点特别突出。我将通过这个技巧完成这个特殊的程序，这个技巧的想法来自一篇博客 <a href="http://mainisusuallyafunction.blogspot.com/">main is usually a function</a>，这让我想到什么时候 main 不是一个函数？</p>
+    
+    <div class="post-layout">
+        
+        <article class="post-content">
+            <p>这始于我的同伴，尽管他已经知道如何编程，但却被迫参加我大学的计算机科学入门课程。我们跟他开玩笑说，他需要做一个可以运行的程序，但是评分的老师不能搞明白它是如何运行的。所以要求就是制作一个满足作业要求的程序，同时又要混淆视听，让评分人认为它不应该能运行起来。考虑到这一点，我开始回想起之前见过的C语言技巧库，其中有一点特别突出。我将通过这个技巧完成这个特殊的程序，这个技巧的想法来自一篇博客 <a href="http://mainisusuallyafunction.blogspot.com/">main is usually a function</a>，这让我想到什么时候 main 不是一个函数？</p>
 <p>（你可以<code>下载</code>我在这里写的代码，注意我是在 64-bit Linux 进行编写的，因此你如果在其它平台运行，你或许需要进行调整。）</p>
 <p>我解决问题的过程通常和大多数程序员做的事情一样。第 1 步：在谷歌上搜索有关问题。第 2 步：点击第一页上每个看起来相关的链接。如果没有解决，尝试不同的查询，然后重复。值得庆幸的是，这个问题的<a href="http://stackoverflow.com/a/2252429/745719">答案</a>出现在 Stackoverflow 首次搜索中。在 1984 年，一个奇怪的程序赢得了 IOCCC，其中 main 被声明为 <code>short main[] = {...}</code>，不知何故，这个程序成功做了一些事情，并打印到屏幕上！这是一个很好的例子。不幸的是，它是为一个完全不同的架构和编译器编写的，所以我真的没有简单的方法来找出它做了什么，但从它只是一堆数字的事实来看，我可以推测，那里的数字只是一些短函数的编译二进制，链接器在寻找主函数时只是把它扔到它的位置。</p>
 <p>有了我们的假设，即程序的代码只是以数组形式表示的主函数的编译汇编，让我们看看是否可以通过制作一个小程序来复制这一现象，看看我们是否可以做到这一点。</p>
@@ -231,6 +235,9 @@
 <p>我猜，当我的朋友交出这样的作业时，会因为糟糕的编码风格而扣分，然而并不会说别的&hellip;&hellip;</p>
 <p>This is a version from <a href="http://jroweboy.github.io/about/">James Rowe</a>.</p>
 
+        </article>
+    </div>
+    
 </main>
 <footer>
     <span>Copyright &copy; SunBK201 Ushiromiya</span>

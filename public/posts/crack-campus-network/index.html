@@ -26,7 +26,7 @@
         </filter>
     </svg>
 </head><body><header>
-    <h1><a rel="author" href="/">SunBK201</a></h1>
+    <h1><a rel="author" href="/">SunBK201's Blog</a></h1>
     <nav>
         <a href="/about">About</a>
         <a href="/feed.xml" data-no-instant>RSS</a>
@@ -37,7 +37,61 @@
         <time datetime="2021-03-13 00:00:00 &#43;0000 UTC">2021-03-13</time>
         <h1>关于某大学校园网共享上网检测机制的研究与解决方案</h1>
     </header>
-    <h1 id="太长不看写于-202511">太长不看（写于 2025.11）</h1>
+    
+    <div class="post-layout">
+        
+        <aside class="toc" aria-label="Table of contents">
+            <h2>目录</h2>
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#太长不看写于-202511">太长不看（写于 2025.11）</a></li>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#对于本校校园网网络环境的说明">对于本校校园网网络环境的说明</a></li>
+    <li><a href="#为什么本校要禁止多设备共享上网">为什么本校要禁止多设备共享上网？</a></li>
+    <li><a href="#本校校园网共享上网检测机制的研究">本校校园网共享上网检测机制的研究</a>
+      <ul>
+        <li><a href="#基于-ipv4-数据包包头内的-ttl-字段的检测">基于 IPv4 数据包包头内的 TTL 字段的检测</a></li>
+        <li><a href="#基于-http-数据包请求头内的-user-agent-字段的检测">基于 HTTP 数据包请求头内的 User-Agent 字段的检测</a></li>
+        <li><a href="#dpi-deep-packet-inspection-深度包检测技术">DPI (Deep Packet Inspection) 深度包检测技术</a></li>
+        <li><a href="#基于-ipv4-数据包包头内的-identification-字段的检测">基于 IPv4 数据包包头内的 Identification 字段的检测</a></li>
+        <li><a href="#基于网络协议栈时钟偏移的检测技术">基于网络协议栈时钟偏移的检测技术</a></li>
+        <li><a href="#flash-cookie-检测技术">Flash Cookie 检测技术</a></li>
+      </ul>
+    </li>
+    <li><a href="#防共享上网检测的解决方案">防共享上网检测的解决方案</a>
+      <ul>
+        <li><a href="#针对基于-ipv4-数据包包头内的-ttl-字段的检测的解决方案">针对基于 IPv4 数据包包头内的 TTL 字段的检测的解决方案</a></li>
+        <li><a href="#针对基于-http-数据包请求头内的-user-agent-字段的检测的解决方案">针对基于 HTTP 数据包请求头内的 User-Agent 字段的检测的解决方案</a>
+          <ul>
+            <li><a href="#方案一通过-privoxy-修改-user-agent此方案不再建议使用"><del>方案一：通过 Privoxy 修改 User-Agent</del>（此方案不再建议使用）</a></li>
+            <li><a href="#方案二使用-xmurp-ua-修改-ua">方案二：使用 XMURP-UA 修改 UA</a></li>
+            <li><a href="#方案三使用-ua2f-修改-ua">方案三：使用 UA2F 修改 UA</a></li>
+            <li><a href="#方案四ua3f">方案四：UA3F</a></li>
+            <li><a href="#方案五使用代理客户端中的重写功能对-http-header-进行修改">方案五：使用代理客户端中的重写功能对 http-header 进行修改</a></li>
+          </ul>
+        </li>
+        <li><a href="#针对基于-ipv4-数据包包头内的-identification-字段的检测的解决方案">针对基于 IPv4 数据包包头内的 Identification 字段的检测的解决方案</a></li>
+        <li><a href="#针对基于网络协议栈时钟偏移的检测技术的解决方案">针对基于网络协议栈时钟偏移的检测技术的解决方案</a></li>
+        <li><a href="#针对-flash-cookie-检测技术的解决方案">针对 Flash Cookie 检测技术的解决方案</a></li>
+        <li><a href="#针对-dpi-deep-packet-inspection-深度包检测技术的解决方案">针对 DPI (Deep Packet Inspection) 深度包检测技术的解决方案</a></li>
+      </ul>
+    </li>
+    <li><a href="#最后">最后</a></li>
+    <li><a href="#对于防检测方案的可用性分析验证">对于防检测方案的可用性分析验证</a>
+      <ul>
+        <li><a href="#部署防检测方案前">部署防检测方案前</a></li>
+        <li><a href="#部署防检测方案后">部署防检测方案后</a></li>
+        <li><a href="#最终结论防共享检测有效">最终结论：防共享检测有效！</a></li>
+      </ul>
+    </li>
+    <li><a href="#实际使用">实际使用</a></li>
+    <li><a href="#写在最后">写在最后</a></li>
+  </ul>
+</nav>
+        </aside>
+        
+        <article class="post-content">
+            <h1 id="太长不看写于-202511">太长不看（写于 2025.11）</h1>
 <p>校园网共享检测有 4 种方式，检测力和难度依次加大：</p>
 <ol>
 <li>针对 IP 数据包的 TTL 字段的检测</li>
@@ -297,6 +351,11 @@ iptables -I FORWARD -p tcp --sport 80 --tcp-flags ACK ACK -m string --algo bm --
 <p>如果大家有疑问可以加讨论组： <a href="https://t.me/crack_campus_network">Telegram</a></p>
 <p>最后，感谢开发 OpenWrt 防检测模块的作者们 <a href="https://github.com/Zxilly">Zxilly</a>、 <a href="https://github.com/CHN-beta">CHN-beta</a> ，是有了他们的无私奉献，才使我能够整理出这么一份解决方案。</p>
 
+        </article>
+    </div>
+    
+    <script src="/js/toc-scrollspy.js" defer></script>
+    
 </main>
 <footer>
     <span>Copyright &copy; SunBK201 Ushiromiya</span>

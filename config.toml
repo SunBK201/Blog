@@ -2,6 +2,12 @@ baseURL = 'http://blog.sunbk201.site/'
 languageCode = 'zh-cn'
 title = "SunBK201's Blog"
 
+[markup]
+  [markup.tableOfContents]
+    startLevel = 1
+    endLevel = 3
+    ordered = false
+
 [outputFormats]
   [outputFormats.RSS]
     baseName = "feed"

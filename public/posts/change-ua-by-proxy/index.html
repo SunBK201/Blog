@@ -26,7 +26,7 @@
         </filter>
     </svg>
 </head><body><header>
-    <h1><a rel="author" href="/">SunBK201</a></h1>
+    <h1><a rel="author" href="/">SunBK201's Blog</a></h1>
     <nav>
         <a href="/about">About</a>
         <a href="/feed.xml" data-no-instant>RSS</a>
@@ -37,7 +37,24 @@
         <time datetime="2021-05-30 00:00:00 &#43;0000 UTC">2021-05-30</time>
         <h1>全新方案-懒人福音-无需手动编译修改UA-校园网防检测</h1>
     </header>
-    <p><a href="https://blog.sunbk201.site/posts/ua3f/">校园网防检测: UA3F - 新一代 UA 修改方法</a></p>
+    
+    <div class="post-layout">
+        
+        <aside class="toc" aria-label="Table of contents">
+            <h2>目录</h2>
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#windows-用户">Windows 用户</a></li>
+    <li><a href="#andorid-用户">Andorid 用户</a></li>
+    <li><a href="#ios--mac-用户">iOS &amp; Mac 用户</a></li>
+    <li><a href="#openwrt-配置">OpenWrt 配置</a></li>
+    <li><a href="#其他">其他</a></li>
+  </ul>
+</nav>
+        </aside>
+        
+        <article class="post-content">
+            <p><a href="https://blog.sunbk201.site/posts/ua3f/">校园网防检测: UA3F - 新一代 UA 修改方法</a></p>
 <p><a href="https://blog.sunbk201.site/crack-campus-network">关于某大学校园网共享上网检测机制的研究与解决方案</a></p>
 <p><a href="https://blog.sunbk201.site/posts/openwrt-compile">OpenWrt 编译与防检测部署教程</a></p>
 <p>阅读过上面两篇文章的同学可以发现，手动编译OpenWrt是一件很痛苦的事。 显然对于一些动手能力不强的同学来说，通过 UA2F 修改UA是比较困难的。而且，UA2F从设计层面上也存在一些问题，例如无法处理网卡分包等情况。</p>
@@ -70,6 +87,11 @@
 <p>对于 TTL 和 NTP 方面，我们无需进行手动编译，常见的 OpenWrt 固件都能够默认支持。 对于 IPID，我认为无需关注，基于 IPID 的检测我认为是不现实且很少见的。</p>
 <p>如果有疑问可以加讨论组：<a href="https://t.me/crack_campus_network">Telegram</a></p>
 
+        </article>
+    </div>
+    
+    <script src="/js/toc-scrollspy.js" defer></script>
+    
 </main>
 <footer>
     <span>Copyright &copy; SunBK201 Ushiromiya</span>
