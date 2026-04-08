@@ -6,8 +6,8 @@ draft: false
 
 hi guys! 
 
-Contact Me: me@sunbk201.com
+Contact Me: sunbk201gm@gmail.com
 
-- Twitter [@SunBK201](https://twitter.com/SunBK201)
 - GitHub [@SunBK201](https://github.com/SunBK201)
+- Twitter [@SunBK201](https://twitter.com/SunBK201)
 - RSS [@SunBK201](https://blog.sunbk201.site/feed.xml)
