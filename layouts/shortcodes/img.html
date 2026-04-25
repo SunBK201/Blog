@@ -1,0 +1,9 @@
+{{- $src := .Get "src" -}}
+{{- $alt := .Get "alt" | default "" -}}
+{{- $width := .Get "width" -}}
+{{- $height := .Get "height" -}}
+{{- $class := .Get "class" -}}
+{{- $style := .Get "style" -}}
+<div style="text-align: center;">
+	<img src="{{ $src }}" alt="{{ $alt }}"{{ with $width }} width="{{ . }}"{{ end }}{{ with $height }} height="{{ . }}"{{ end }}{{ with $class }} class="{{ . }}"{{ end }}{{ with $style }} style="{{ . }}"{{ end }} loading="lazy">
+</div>

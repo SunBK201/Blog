@@ -6,7 +6,168 @@
     <description>Recent content in Posts on SunBK201&#39;s Blog feedId:80934128438220800+userId:41428277522420736</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 03 Dec 2023 03:37:08 +0800</lastBuildDate><atom:link href="http://blog.sunbk201.site/posts/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 24 Apr 2026 00:00:00 +0000</lastBuildDate><atom:link href="http://blog.sunbk201.site/posts/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>深入理解 libevent</title>
+      <link>http://blog.sunbk201.site/posts/libevent/</link>
+      <pubDate>Fri, 24 Apr 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://blog.sunbk201.site/posts/libevent/</guid>
+      <description>&lt;p&gt;libevent 是一个事件驱动的网络库，利用事件循环机制来处理网络事件。libevent 是很多著名开源项目的依赖库，如 Chromium、Envoy、Tor。本文将深入理解 libevent 的设计和实现。&lt;/p&gt;
+&lt;h1 id=&#34;libevent-高层架构&#34;&gt;libevent 高层架构&lt;/h1&gt;
+&lt;div style=&#34;text-align: center;&#34;&gt;
+	&lt;img src=&#34;https://sunbk201.oss-cn-beijing.aliyuncs.com/uPic/libevent-arch.png&#34; alt=&#34;libevent&#34; width=&#34;320&#34; loading=&#34;lazy&#34;&gt;
+&lt;/div&gt;
+&lt;p&gt;libevent 的组成如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;event_base、event：libevent 的核心组件，负责事件循环和事件管理。&lt;/li&gt;
+&lt;li&gt;bufferevent：基于 event_base 的缓冲系统，提供了更高层次的接口来处理网络 I/O，支持自动缓冲和事件通知。&lt;/li&gt;
+&lt;li&gt;evdns、evhttp、evrpc：基于 event_base 的 DNS、HTTP、RPC 模块，提供了更高层次的网络服务接口。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;libevent-核心event_base&#34;&gt;libevent 核心：event_base&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;https://sunbk201.oss-cn-beijing.aliyuncs.com/uPic/libevent.png&#34; alt=&#34;event_base&#34;&gt;&lt;/p&gt;
+&lt;p&gt;event_base 是 libevent 的核心组件，在一次事件循环中涉及 event_base 中的关键组成包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;evbase：libevent 实际选择的多路复用器后端实例，如 epoll、kqueue、select 等。&lt;/li&gt;
+&lt;li&gt;event_io_map：用于存储所有注册的 event，当调用 &lt;code&gt;event_add&lt;/code&gt; 注册事件时，会将 event 添加到 event_io_map 中。&lt;/li&gt;
+&lt;li&gt;activequeues：用于存储所有活跃事件的队列，当事件就绪时，会将对应的 event 添加到 activequeues 中，等待被处理。&lt;/li&gt;
+&lt;li&gt;timeheap：libevent 的定时事件堆，是存储所有定时事件的最小堆，当定时事件到期时，会将对应的 event 添加到 activequeues 中。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;值得注意的是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;activequeues&lt;/code&gt; 不是一个队列，而是一组“按优先级分层”的队列。libevent 总是先处理最高优先级（数值最小）的活跃事件。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;event_changelist&lt;/code&gt; 用于批量合并对 fd 监听状态的修改，减少系统调用次数（尤其在 epoll 场景下很有价值）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;基于 event_base，用户围绕 &lt;code&gt;event_base_new&lt;/code&gt;、&lt;code&gt;event_new&lt;/code&gt;、&lt;code&gt;event_add&lt;/code&gt;、&lt;code&gt;event_del&lt;/code&gt;、&lt;code&gt;event_base_dispatch&lt;/code&gt; 等接口进行事件注册管理和事件循环的控制：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;event_base_new&lt;/code&gt;：创建一个新的 event_base 实例，初始化多路复用器后端和相关数据结构。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;event_new&lt;/code&gt;：创建一个新的 event 实例，指定事件类型（如 EV_READ、EV_WRITE、EV_TIMEOUT 等）和回调函数。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;event_add&lt;/code&gt;：将 event 添加到 event_base 中，注册事件并指定超时时间（如果是定时事件）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;event_del&lt;/code&gt;：从 event_base 中删除 event，取消事件注册。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;event_base_dispatch&lt;/code&gt;：启动事件循环，等待事件发生并调用对应的回调函数进行处理。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;一个 &lt;code&gt;event&lt;/code&gt; 典型会经过以下生命周期：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;创建：&lt;code&gt;event_new&lt;/code&gt;（仅构建对象，不进入调度）。&lt;/li&gt;
+&lt;li&gt;注册：&lt;code&gt;event_add&lt;/code&gt;（进入 I/O map 或 timeheap）。&lt;/li&gt;
+&lt;li&gt;激活：I/O 就绪或超时到期后，进入 &lt;code&gt;activequeues&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;执行：回调被调用。&lt;/li&gt;
+&lt;li&gt;再次注册或销毁：
+&lt;ul&gt;
+&lt;li&gt;非 &lt;code&gt;EV_PERSIST&lt;/code&gt; 事件，触发后通常会自动从监听中移除。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EV_PERSIST&lt;/code&gt; 事件会保留监听状态，可持续触发。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;event_base_new&#34;&gt;event_base_new&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;创建单调定时器&lt;/li&gt;
+&lt;li&gt;初始化 timeheap&lt;/li&gt;
+&lt;li&gt;初始化 active_later_queue&lt;/li&gt;
+&lt;li&gt;初始化 event_io_map、event_signal_map&lt;/li&gt;
+&lt;li&gt;初始化 event_changelist&lt;/li&gt;
+&lt;li&gt;从 eventops 中选择后端多路复用器&lt;/li&gt;
+&lt;li&gt;新建后端实例&lt;/li&gt;
+&lt;li&gt;初始化 activequeues&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;实践上，&lt;code&gt;event_base_new_with_config&lt;/code&gt; 更常见，因为你可以显式控制后端选择策略，例如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;禁用某些后端（例如调试时临时禁用 epoll）。&lt;/li&gt;
+&lt;li&gt;开启特性要求（如边沿触发支持）。&lt;/li&gt;
+&lt;li&gt;设置 &lt;code&gt;EVENT_BASE_FLAG_NOLOCK&lt;/code&gt; 等标志（需结合线程模型谨慎使用）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;event_add&#34;&gt;event_add&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;在 timeheap 中预留一个位置&lt;/li&gt;
+&lt;li&gt;如果 event 不在 event_io_map 或 activequeues 中，则将 event 注册到 event_io_map&lt;/li&gt;
+&lt;li&gt;计算超时时间，将 event 插入 timeheap&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这里有两个语义细节非常重要：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;对 I/O 事件传入 &lt;code&gt;tv != NULL&lt;/code&gt;，表示“给这次 I/O 监听附带一个超时上限”。超时到了会收到 &lt;code&gt;EV_TIMEOUT&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;对纯定时事件（如 &lt;code&gt;evtimer_new&lt;/code&gt;）来说，&lt;code&gt;event_add&lt;/code&gt; 的 &lt;code&gt;tv&lt;/code&gt; 就是“下一次触发时间”。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;若事件已在 pending 状态，再次 &lt;code&gt;event_add&lt;/code&gt; 通常意味着刷新其超时时间（具体表现取决于事件类型和是否 &lt;code&gt;EV_PERSIST&lt;/code&gt;）。&lt;/p&gt;
+&lt;h2 id=&#34;event_del&#34;&gt;event_del&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;从 timeheap 中移除 event&lt;/li&gt;
+&lt;li&gt;如果 event 在 activequeues 中则将其移除&lt;/li&gt;
+&lt;li&gt;如果 event 在 event_io_map 中则将其移除&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;code&gt;event_del&lt;/code&gt; 的核心作用是“取消后续触发”，但并不回收 &lt;code&gt;event&lt;/code&gt; 本身内存。通常流程是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;先 &lt;code&gt;event_del&lt;/code&gt;（如果仍可能处于注册状态）。&lt;/li&gt;
+&lt;li&gt;再 &lt;code&gt;event_free&lt;/code&gt; 释放对象。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;event_base_dispatch&#34;&gt;event_base_dispatch&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;根据 timeheap 中的堆顶时间计算一次 dispatch 的阻塞等待时间&lt;/li&gt;
+&lt;li&gt;将 active_later_queue 中的 event 移动到 activequeues&lt;/li&gt;
+&lt;li&gt;执行后端 dispatch，等待获取 IO 事件，并将对应的 event 加入 activequeues 中&lt;/li&gt;
+&lt;li&gt;批量处理已到期的定时事件，对已到期事件将其从 event_io_map 中移除，并将其加入 activequeues&lt;/li&gt;
+&lt;li&gt;执行 activequeues 中最高优先级（数值最小）的 event_callback，并将 event 从 activequeues 中移除&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;缓冲系统bufferevent&#34;&gt;缓冲系统：bufferevent&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;https://sunbk201.oss-cn-beijing.aliyuncs.com/uPic/bufferevent.png&#34; alt=&#34;bufferevent&#34;&gt;&lt;/p&gt;
+&lt;p&gt;bufferevent 是基于 event_base 的缓冲系统，提供了更高层次的接口来处理网络 I/O，支持自动缓冲和事件通知。&lt;/p&gt;
+&lt;p&gt;如果说 &lt;code&gt;event&lt;/code&gt; 是“原始事件”，那 &lt;code&gt;bufferevent&lt;/code&gt; 就是“带缓冲和流控的连接对象”。它把“收发、回调、背压、超时”打包到一个统一模型里。&lt;/p&gt;
+&lt;p&gt;bufferevent 主要由以下组件组成：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;input_buffer、output_buffer: 输入输出缓冲区，用于存储待处理的网络数据。&lt;/li&gt;
+&lt;li&gt;readcb、writecb、eventcb: 读写事件回调函数，当对应事件发生时会被调用。&lt;/li&gt;
+&lt;li&gt;enabled: 状态标志，表示 bufferevent 当前的状态，如是否启用读写事件等。&lt;/li&gt;
+&lt;li&gt;ev_base: 关联的 event_base 实例，用于事件循环和事件管理。&lt;/li&gt;
+&lt;li&gt;ev_read、ev_write: 关联的 event 实例，用于注册读写事件到 event_base 中。&lt;/li&gt;
+&lt;li&gt;timeout_read、timeout_write: 读写事件的超时时间，用于定时事件管理。&lt;/li&gt;
+&lt;li&gt;wm_read、wm_write: 水位线，用于控制输入输出缓冲区的大小，实现应用层背压。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;动态缓冲区evbuffer&#34;&gt;动态缓冲区：evbuffer&lt;/h2&gt;
+&lt;p&gt;evbuffer 是 libevent 提供的一个高效的缓冲区实现，支持动态扩展和高效的数据操作。
+bufferevent 内部使用 evbuffer 来管理输入输出缓冲区，其组成如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;buffer: 实际的缓冲区数据存储，支持动态扩展。&lt;/li&gt;
+&lt;li&gt;misalign: 缓冲区数据的偏移量，用于优化数据操作。&lt;/li&gt;
+&lt;li&gt;off: 缓冲区数据的长度，用于记录当前缓冲区中有效数据的长度。&lt;/li&gt;
+&lt;li&gt;total_len: 缓冲区的总长度，用于记录当前缓冲区的总容量。&lt;/li&gt;
+&lt;li&gt;refcnt: 引用计数，用于管理缓冲区的生命周期。&lt;/li&gt;
+&lt;li&gt;flags: 状态标志，用于记录缓冲区的状态，如是否已锁定等。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;evbuffer 的实际数据存储通常采用链表结构，由多个 evbuffer_chain 组成，每个 evbuffer_chain 包含一个固定大小的缓冲区和指向下一个 evbuffer_chain 的指针，这种设计允许 evbuffer 动态扩展而不需要频繁地进行内存复制。&lt;/p&gt;
+&lt;p&gt;这种结构使它具备零拷贝的能力，常见优化手段包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;evbuffer_add_reference&lt;/code&gt;：引用外部内存，避免立刻复制。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;evbuffer_pullup&lt;/code&gt;：在需要连续内存时再做整理。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;evbuffer_remove_buffer&lt;/code&gt;：在两个 buffer 间搬运数据，减少应用层手工 memcpy。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;背压机制watermark&#34;&gt;背压机制：watermark&lt;/h2&gt;
+&lt;p&gt;bufferevent 的水位线用于控制读写回调：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;读低水位（read low watermark）：&lt;code&gt;input_buffer&lt;/code&gt; 达到该值才触发读回调。&lt;/li&gt;
+&lt;li&gt;读高水位（read high watermark）：达到上限时暂停继续读，防止内存失控。&lt;/li&gt;
+&lt;li&gt;写低水位（write low watermark）：&lt;code&gt;output_buffer&lt;/code&gt; 下降到该值时触发写回调。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;限流机制rate-limit&#34;&gt;限流机制：rate limit&lt;/h2&gt;
+&lt;p&gt;libevent 的 rate limit 底层实现基于令牌桶算法，本质是在用户态控制 read()/write() 读写来实现速率限制。&lt;/p&gt;
+&lt;p&gt;rate limit 与 watermark 的不同在于：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;watermark 控制缓冲区大小和回调触发时机；&lt;/li&gt;
+&lt;li&gt;rate limit 控制单位时间内实际读写多少字节。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;rate limit 的控制参数由 &lt;code&gt;ev_token_bucket_cfg&lt;/code&gt; 定义，包含：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;read_rate&lt;/code&gt;：每个 tick 增加多少读令牌&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;read_maximum&lt;/code&gt;：读令牌桶的最大容量&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;write_rate&lt;/code&gt;：每个 tick 增加多少写令牌&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;write_maximum&lt;/code&gt;：写令牌桶的最大容量&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tick_timeout&lt;/code&gt;：tick 时间长度，用于控制令牌增加的频率&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;read_rate 和 write_rate 不是“每秒字节数”，而是“每个 tick 的字节数”，实际速率 = rate / tick_len。&lt;/p&gt;
+&lt;p&gt;其中 read rate limit 限制的是 libevent 从 socket 读入到 bufferevent input buffer 的速度，
+write rate limit 限制的是 libevent 从 bufferevent output buffer 写出到 socket 的速度。&lt;/p&gt;
+&lt;p&gt;在对一个 bufferevent 设置了 rate limit 后，libevent 会在每个 tick 定时器到期时检查当前的令牌数量，并根据需要暂停或恢复读写事件，以确保实际的读写速率不超过配置的限制。&lt;/p&gt;
+</description>
+    </item>
+    
     <item>
       <title>校园网防检测: UA3F - 新一代 UA 修改方法</title>
       <link>http://blog.sunbk201.site/posts/ua3f/</link>

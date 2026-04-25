@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="UTF-8">
+    <title>深入理解 libevent | SunBK201&#39;s Blog</title>
+    <meta name="author" content="SunBK201">
+    <meta property="og:title" content="深入理解 libevent" />
+    <meta property="og:type" content="website">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="stylesheet" href="/css/style.css">
+    <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="SunBK201">
+    <style>
+        @import url('/css/fonts.css');
+    </style>
+    <svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+        <filter id="x">
+            <feTurbulence baseFrequency="0.01 0.02" numOctaves="2" result="t0"></feTurbulence>
+            <feDisplacementMap in="SourceGraphic" in2="t0" scale="4" result="d0"></feDisplacementMap>
+            <feComposite in="SourceGraphic" in2="d0" operator="atop" result="0"></feComposite>
+            <feTurbulence baseFrequency="1" numOctaves="2" result="t1"></feTurbulence>
+            <feDisplacementMap in="0" in2="t1" scale="1" result="d1"></feDisplacementMap>
+            <feComposite in="0" in2="d1" operator="atop" result="1"></feComposite>
+            <feOffset in="1" dx="-3" dy="-3" />
+        </filter>
+    </svg>
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-GELV24FLB2"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-GELV24FLB2');
+        }
+      </script></head><body><header>
+    <h1><a rel="author" href="/">SunBK201's Blog</a></h1>
+    <nav>
+        <a href="/about">About</a>
+        <a href="/feed.xml" data-no-instant>RSS</a>
+    </nav>
+</header>
+<main>
+    <header>
+        <time datetime="2026-04-24 00:00:00 &#43;0000 UTC">2026-04-24</time>
+        <h1>深入理解 libevent</h1>
+    </header>
+    
+    <div class="post-layout">
+        
+        <aside class="toc" aria-label="Table of contents">
+            <h2>目录</h2>
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#libevent-高层架构">libevent 高层架构</a></li>
+    <li><a href="#libevent-核心event_base">libevent 核心：event_base</a>
+      <ul>
+        <li><a href="#event_base_new">event_base_new</a></li>
+        <li><a href="#event_add">event_add</a></li>
+        <li><a href="#event_del">event_del</a></li>
+        <li><a href="#event_base_dispatch">event_base_dispatch</a></li>
+      </ul>
+    </li>
+    <li><a href="#缓冲系统bufferevent">缓冲系统：bufferevent</a>
+      <ul>
+        <li><a href="#动态缓冲区evbuffer">动态缓冲区：evbuffer</a></li>
+        <li><a href="#背压机制watermark">背压机制：watermark</a></li>
+        <li><a href="#限流机制rate-limit">限流机制：rate limit</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </aside>
+        
+        <article class="post-content">
+            <p>libevent 是一个事件驱动的网络库，利用事件循环机制来处理网络事件。libevent 是很多著名开源项目的依赖库，如 Chromium、Envoy、Tor。本文将深入理解 libevent 的设计和实现。</p>
+<h1 id="libevent-高层架构">libevent 高层架构</h1>
+<div style="text-align: center;">
+	<img src="https://sunbk201.oss-cn-beijing.aliyuncs.com/uPic/libevent-arch.png" alt="libevent" width="320" loading="lazy">
+</div>
+<p>libevent 的组成如下：</p>
+<ul>
+<li>event_base、event：libevent 的核心组件，负责事件循环和事件管理。</li>
+<li>bufferevent：基于 event_base 的缓冲系统，提供了更高层次的接口来处理网络 I/O，支持自动缓冲和事件通知。</li>
+<li>evdns、evhttp、evrpc：基于 event_base 的 DNS、HTTP、RPC 模块，提供了更高层次的网络服务接口。</li>
+</ul>
+<h1 id="libevent-核心event_base">libevent 核心：event_base</h1>
+<p><img src="https://sunbk201.oss-cn-beijing.aliyuncs.com/uPic/libevent.png" alt="event_base"></p>
+<p>event_base 是 libevent 的核心组件，在一次事件循环中涉及 event_base 中的关键组成包括：</p>
+<ul>
+<li>evbase：libevent 实际选择的多路复用器后端实例，如 epoll、kqueue、select 等。</li>
+<li>event_io_map：用于存储所有注册的 event，当调用 <code>event_add</code> 注册事件时，会将 event 添加到 event_io_map 中。</li>
+<li>activequeues：用于存储所有活跃事件的队列，当事件就绪时，会将对应的 event 添加到 activequeues 中，等待被处理。</li>
+<li>timeheap：libevent 的定时事件堆，是存储所有定时事件的最小堆，当定时事件到期时，会将对应的 event 添加到 activequeues 中。</li>
+</ul>
+<p>值得注意的是：</p>
+<ul>
+<li><code>activequeues</code> 不是一个队列，而是一组“按优先级分层”的队列。libevent 总是先处理最高优先级（数值最小）的活跃事件。</li>
+<li><code>event_changelist</code> 用于批量合并对 fd 监听状态的修改，减少系统调用次数（尤其在 epoll 场景下很有价值）。</li>
+</ul>
+<p>基于 event_base，用户围绕 <code>event_base_new</code>、<code>event_new</code>、<code>event_add</code>、<code>event_del</code>、<code>event_base_dispatch</code> 等接口进行事件注册管理和事件循环的控制：</p>
+<ul>
+<li><code>event_base_new</code>：创建一个新的 event_base 实例，初始化多路复用器后端和相关数据结构。</li>
+<li><code>event_new</code>：创建一个新的 event 实例，指定事件类型（如 EV_READ、EV_WRITE、EV_TIMEOUT 等）和回调函数。</li>
+<li><code>event_add</code>：将 event 添加到 event_base 中，注册事件并指定超时时间（如果是定时事件）。</li>
+<li><code>event_del</code>：从 event_base 中删除 event，取消事件注册。</li>
+<li><code>event_base_dispatch</code>：启动事件循环，等待事件发生并调用对应的回调函数进行处理。</li>
+</ul>
+<p>一个 <code>event</code> 典型会经过以下生命周期：</p>
+<ol>
+<li>创建：<code>event_new</code>（仅构建对象，不进入调度）。</li>
+<li>注册：<code>event_add</code>（进入 I/O map 或 timeheap）。</li>
+<li>激活：I/O 就绪或超时到期后，进入 <code>activequeues</code>。</li>
+<li>执行：回调被调用。</li>
+<li>再次注册或销毁：
+<ul>
+<li>非 <code>EV_PERSIST</code> 事件，触发后通常会自动从监听中移除。</li>
+<li><code>EV_PERSIST</code> 事件会保留监听状态，可持续触发。</li>
+</ul>
+</li>
+</ol>
+<h2 id="event_base_new">event_base_new</h2>
+<ol>
+<li>创建单调定时器</li>
+<li>初始化 timeheap</li>
+<li>初始化 active_later_queue</li>
+<li>初始化 event_io_map、event_signal_map</li>
+<li>初始化 event_changelist</li>
+<li>从 eventops 中选择后端多路复用器</li>
+<li>新建后端实例</li>
+<li>初始化 activequeues</li>
+</ol>
+<p>实践上，<code>event_base_new_with_config</code> 更常见，因为你可以显式控制后端选择策略，例如：</p>
+<ul>
+<li>禁用某些后端（例如调试时临时禁用 epoll）。</li>
+<li>开启特性要求（如边沿触发支持）。</li>
+<li>设置 <code>EVENT_BASE_FLAG_NOLOCK</code> 等标志（需结合线程模型谨慎使用）。</li>
+</ul>
+<h2 id="event_add">event_add</h2>
+<ol>
+<li>在 timeheap 中预留一个位置</li>
+<li>如果 event 不在 event_io_map 或 activequeues 中，则将 event 注册到 event_io_map</li>
+<li>计算超时时间，将 event 插入 timeheap</li>
+</ol>
+<p>这里有两个语义细节非常重要：</p>
+<ul>
+<li>对 I/O 事件传入 <code>tv != NULL</code>，表示“给这次 I/O 监听附带一个超时上限”。超时到了会收到 <code>EV_TIMEOUT</code>。</li>
+<li>对纯定时事件（如 <code>evtimer_new</code>）来说，<code>event_add</code> 的 <code>tv</code> 就是“下一次触发时间”。</li>
+</ul>
+<p>若事件已在 pending 状态，再次 <code>event_add</code> 通常意味着刷新其超时时间（具体表现取决于事件类型和是否 <code>EV_PERSIST</code>）。</p>
+<h2 id="event_del">event_del</h2>
+<ol>
+<li>从 timeheap 中移除 event</li>
+<li>如果 event 在 activequeues 中则将其移除</li>
+<li>如果 event 在 event_io_map 中则将其移除</li>
+</ol>
+<p><code>event_del</code> 的核心作用是“取消后续触发”，但并不回收 <code>event</code> 本身内存。通常流程是：</p>
+<ul>
+<li>先 <code>event_del</code>（如果仍可能处于注册状态）。</li>
+<li>再 <code>event_free</code> 释放对象。</li>
+</ul>
+<h2 id="event_base_dispatch">event_base_dispatch</h2>
+<ol>
+<li>根据 timeheap 中的堆顶时间计算一次 dispatch 的阻塞等待时间</li>
+<li>将 active_later_queue 中的 event 移动到 activequeues</li>
+<li>执行后端 dispatch，等待获取 IO 事件，并将对应的 event 加入 activequeues 中</li>
+<li>批量处理已到期的定时事件，对已到期事件将其从 event_io_map 中移除，并将其加入 activequeues</li>
+<li>执行 activequeues 中最高优先级（数值最小）的 event_callback，并将 event 从 activequeues 中移除</li>
+</ol>
+<h1 id="缓冲系统bufferevent">缓冲系统：bufferevent</h1>
+<p><img src="https://sunbk201.oss-cn-beijing.aliyuncs.com/uPic/bufferevent.png" alt="bufferevent"></p>
+<p>bufferevent 是基于 event_base 的缓冲系统，提供了更高层次的接口来处理网络 I/O，支持自动缓冲和事件通知。</p>
+<p>如果说 <code>event</code> 是“原始事件”，那 <code>bufferevent</code> 就是“带缓冲和流控的连接对象”。它把“收发、回调、背压、超时”打包到一个统一模型里。</p>
+<p>bufferevent 主要由以下组件组成：</p>
+<ul>
+<li>input_buffer、output_buffer: 输入输出缓冲区，用于存储待处理的网络数据。</li>
+<li>readcb、writecb、eventcb: 读写事件回调函数，当对应事件发生时会被调用。</li>
+<li>enabled: 状态标志，表示 bufferevent 当前的状态，如是否启用读写事件等。</li>
+<li>ev_base: 关联的 event_base 实例，用于事件循环和事件管理。</li>
+<li>ev_read、ev_write: 关联的 event 实例，用于注册读写事件到 event_base 中。</li>
+<li>timeout_read、timeout_write: 读写事件的超时时间，用于定时事件管理。</li>
+<li>wm_read、wm_write: 水位线，用于控制输入输出缓冲区的大小，实现应用层背压。</li>
+</ul>
+<h2 id="动态缓冲区evbuffer">动态缓冲区：evbuffer</h2>
+<p>evbuffer 是 libevent 提供的一个高效的缓冲区实现，支持动态扩展和高效的数据操作。
+bufferevent 内部使用 evbuffer 来管理输入输出缓冲区，其组成如下：</p>
+<ul>
+<li>buffer: 实际的缓冲区数据存储，支持动态扩展。</li>
+<li>misalign: 缓冲区数据的偏移量，用于优化数据操作。</li>
+<li>off: 缓冲区数据的长度，用于记录当前缓冲区中有效数据的长度。</li>
+<li>total_len: 缓冲区的总长度，用于记录当前缓冲区的总容量。</li>
+<li>refcnt: 引用计数，用于管理缓冲区的生命周期。</li>
+<li>flags: 状态标志，用于记录缓冲区的状态，如是否已锁定等。</li>
+</ul>
+<p>evbuffer 的实际数据存储通常采用链表结构，由多个 evbuffer_chain 组成，每个 evbuffer_chain 包含一个固定大小的缓冲区和指向下一个 evbuffer_chain 的指针，这种设计允许 evbuffer 动态扩展而不需要频繁地进行内存复制。</p>
+<p>这种结构使它具备零拷贝的能力，常见优化手段包括：</p>
+<ul>
+<li><code>evbuffer_add_reference</code>：引用外部内存，避免立刻复制。</li>
+<li><code>evbuffer_pullup</code>：在需要连续内存时再做整理。</li>
+<li><code>evbuffer_remove_buffer</code>：在两个 buffer 间搬运数据，减少应用层手工 memcpy。</li>
+</ul>
+<h2 id="背压机制watermark">背压机制：watermark</h2>
+<p>bufferevent 的水位线用于控制读写回调：</p>
+<ul>
+<li>读低水位（read low watermark）：<code>input_buffer</code> 达到该值才触发读回调。</li>
+<li>读高水位（read high watermark）：达到上限时暂停继续读，防止内存失控。</li>
+<li>写低水位（write low watermark）：<code>output_buffer</code> 下降到该值时触发写回调。</li>
+</ul>
+<h2 id="限流机制rate-limit">限流机制：rate limit</h2>
+<p>libevent 的 rate limit 底层实现基于令牌桶算法，本质是在用户态控制 read()/write() 读写来实现速率限制。</p>
+<p>rate limit 与 watermark 的不同在于：</p>
+<ul>
+<li>watermark 控制缓冲区大小和回调触发时机；</li>
+<li>rate limit 控制单位时间内实际读写多少字节。</li>
+</ul>
+<p>rate limit 的控制参数由 <code>ev_token_bucket_cfg</code> 定义，包含：</p>
+<ul>
+<li><code>read_rate</code>：每个 tick 增加多少读令牌</li>
+<li><code>read_maximum</code>：读令牌桶的最大容量</li>
+<li><code>write_rate</code>：每个 tick 增加多少写令牌</li>
+<li><code>write_maximum</code>：写令牌桶的最大容量</li>
+<li><code>tick_timeout</code>：tick 时间长度，用于控制令牌增加的频率</li>
+</ul>
+<p>read_rate 和 write_rate 不是“每秒字节数”，而是“每个 tick 的字节数”，实际速率 = rate / tick_len。</p>
+<p>其中 read rate limit 限制的是 libevent 从 socket 读入到 bufferevent input buffer 的速度，
+write rate limit 限制的是 libevent 从 bufferevent output buffer 写出到 socket 的速度。</p>
+<p>在对一个 bufferevent 设置了 rate limit 后，libevent 会在每个 tick 定时器到期时检查当前的令牌数量，并根据需要暂停或恢复读写事件，以确保实际的读写速率不超过配置的限制。</p>
+
+        </article>
+    </div>
+    
+    <script src="/js/toc-scrollspy.js" defer></script>
+    
+</main>
+<footer>
+    <span>Copyright &copy; SunBK201 Ushiromiya</span>
+</footer></body>
+</html>
